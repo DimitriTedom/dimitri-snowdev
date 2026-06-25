@@ -162,7 +162,7 @@ Créer les fichiers dans `supabase/migrations/` :
 ## 🎯 Objectif 4 : Navbar + Layout Principal
 
 **But** : Créer la navigation "capsule pill glassmorphism" inspirée d'aerukart.com, avec le PersonaSwitcher intégré.
-
+ALAWAYS USE THE ui-ux-pro-max skill, always use the 21st.dev mcp server here, if it's not responding, stop and try luchning it and alert user.
 ### Tâches
 
 #### 4.1 — `Navbar.tsx`

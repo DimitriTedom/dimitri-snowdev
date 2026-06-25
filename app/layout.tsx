@@ -1,28 +1,46 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./../styles/globals.css";
 
 import { ThemeProvider } from "@/components/theme-provider";
-import { SiteHeader } from "@/components/site-header";
 import { Toaster } from "@/components/ui/sonner";
 
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  weight: ["400", "500"],
+});
 
 export const metadata: Metadata = {
   title: {
-    default: "Next.js Template",
-    template: "%s | Next.js Template",
+    default: "Dimitri Tedom | Lead AI Engineer & Full Stack Developer",
+    template: "%s | Dimitri Tedom",
   },
-  description: "Next.js 15 + Supabase Auth + Prisma starter template.",
+  description: "Lead AI Engineer, Full Stack Developer, Cloud Architect and Tech Entrepreneur Portfolio.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-          <SiteHeader />
-          <main className="mx-auto max-w-5xl px-4 py-10">{children}</main>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="bg-bg-deep text-foreground antialiased font-sans">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          {children}
           <Toaster />
         </ThemeProvider>
       </body>

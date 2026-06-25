@@ -49,7 +49,7 @@ export const PersonaProvider = ({ children }: { children: ReactNode }) => {
       }
     }
     setPersonaState(initial);
-  }, []);
+  }, [paramPersona]);
 
   // Keep URL and cookie in sync whenever persona changes
   useEffect(() => {

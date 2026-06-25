@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { signUpSchema } from "@/lib/validations";
-import { signUpAction } from "@/app/auth/actions";
+import { signUpAction } from "@/app/(starter)/auth/actions";
 import { Button } from "@/components/ui/button";
 import {
   Form,
