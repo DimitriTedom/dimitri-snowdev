@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePersona } from '@/hooks/usePersona'
@@ -64,7 +65,16 @@ export default function Navbar() {
           <div className="relative flex items-center justify-between bg-bg-surface/30 dark:bg-bg-surface/20 backdrop-blur-glass border border-glass-border px-6 py-3 rounded-pill shadow-glass">
             
             {/* Logo */}
-            <Link href={`/?persona=${activePersona}`} className="flex items-center gap-2 group cursor-pointer">
+            <Link href={`/?persona=${activePersona}`} className="flex items-center gap-2.5 group cursor-pointer">
+              <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-glass-border bg-bg-surface/50 p-1.5 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                <Image 
+                  src="/images/snowdev-logo.png" 
+                  alt="SnowDev Logo" 
+                  width={20} 
+                  height={20} 
+                  className="object-contain"
+                />
+              </div>
               <span className="font-display font-bold text-xl tracking-tight text-text-primary">
                 Snow<span className="transition-colors duration-300" style={{ color: themeAccent }}>Dev</span>
               </span>

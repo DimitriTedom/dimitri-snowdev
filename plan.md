@@ -199,9 +199,11 @@ ALAWAYS USE THE ui-ux-pro-max skill, always use the 21st.dev mcp server here, if
 ## 🎯 Objectif 5 : Hero Section Dynamique
 
 **But** : Créer la section hero multi-persona avec animations premium GSAP/Framer Motion et éléments 3D décoratifs.
-
+utilise le skill ui-ux-pro-max
 ### Tâches
+POUR COMMENCER, INSPIRE TOI DU DESIGN DE https://aerukart.com/ pour la partie hero, utilise les assets de reactbits.dev pour t'aider si besoin en installant leur mcp, ou alors magic ui, sache aussi que l'ia antigravity a des outils pour t'aider avec les 3d. et que le dossier ../inspiration contient des captures d'ecran du site de https://aerukart.com/  qui pourraient t'inspirer. et c'est aussi le dossier obtenu en convertissant sont site en zip, . Le dossier ../New assets contien la   video glassmorp adapté a notre brand avec le style inspiré de celle de aerukart.com, ainsi que le logoMark que nus allons utiliser dans notre nav bar.
 
+implémente la d'abord comme celle de aerukart.com, en utilisant les assets que j'ai mis a disposition.  ensuite, si je juge vais juger le rendu et te laisser implémenter les étapes qui suivent : 
 #### 5.1 — Installation dépendances Hero
 ```bash
 npm install gsap @gsap/react three @react-three/fiber @react-three/drei

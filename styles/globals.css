@@ -37,11 +37,13 @@
   }
 
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
 
   body {
-    @apply bg-bg-deep text-foreground antialiased;
+    background-color: #060618;
+    color: hsl(var(--foreground));
+    @apply antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
