@@ -11,7 +11,7 @@ Winner of the ChezFlora national e-commerce competition. 2+ years of teaching we
 Currently building SnowDev V2 — a next-generation multi-persona developer portfolio.`,
   location: 'Yaoundé, Cameroon 🇨🇲',
   email: 'dimitritedom@gmail.com',
-  avatar_url: '/images/avatar/dimitri.jpg',
+  avatar_url: '/images/avatar/dimitri1.jpeg',
   available_for_work: true,
   years_of_experience: 3,
   socials: [
