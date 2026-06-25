@@ -4,6 +4,59 @@
 
 @layer base {
   :root {
+    /* Dark mode only for SnowDev V2 */
+    --background: 224 71% 4%;     /* #060618 */
+    --foreground: 210 40% 98%;    /* #ffffff */
+
+    --card:        228 67% 7%;     /* #090c1a */
+    --card-foreground: 210 40% 98%;
+
+    --primary:     259 82% 51%;    /* #5e17eb */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary:   251 63% 51%;    /* #5930d4 */
+    --secondary-foreground: 210 40% 98%;
+
+    --muted:       228 30% 15%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent:      271 89% 69%;    /* #ae6bf6 */
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border:      217 32% 17%;
+    --input:       217 32% 17%;
+    --ring:        259 82% 51%;    /* violet accent */
+
+    --radius: 0.75rem;
+  }
+
+  * { @apply border-border; }
+
+  body { @apply bg-bg-deep text-foreground antialiased; font-feature-settings: "rlig" 1, "calt" 1; }
+
+  /* Scrollbar custom */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #060618; }
+  ::-webkit-scrollbar-thumb { background: #5e17eb; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #ae6bf6; }
+}
+
+@layer utilities {
+  .glass { @apply bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.10)] backdrop-blur-[10px]; }
+  .glass-md { @apply bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.19)] backdrop-blur-[10px]; }
+  .glass-accent { @apply bg-[rgba(94,23,235,0.10)] border border-[rgba(94,23,235,0.30)] backdrop-blur-[10px]; }
+  .text-gradient { @apply bg-clip-text text-transparent bg-gradient-text; background-image: linear-gradient(90deg, #5e17eb, #ae6bf6, #5930d4); }
+  .neon-violet { box-shadow: 0px 0px 25px -5px rgba(94, 23, 235, 0.8); }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 

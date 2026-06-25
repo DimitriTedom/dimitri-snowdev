@@ -6,11 +6,12 @@
     "node": ">=20.12.0"
   },
   "scripts": {
+    "preinstall": "node -e \"const [major, minor] = process.versions.node.split('.').map(Number); if (major < 20 || (major === 20 && minor < 12)) { console.error('Node version >=20.12.0 required'); process.exit(1); }\"",
     "dev": "next dev",
     "build": "next build",
     "vercel-build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "postinstall": "prisma generate",
@@ -20,7 +21,10 @@
     "db:studio": "prisma studio",
     "supabase:start": "supabase start",
     "supabase:stop": "supabase stop",
-    "supabase:status": "supabase status"
+    "supabase:status": "supabase status",
+    "prepare": "husky install",
+    "test": "vitest run --coverage",
+    "supabase:seed": "npx supabase db reset && npx supabase db migrate && npx supabase db seed"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -44,6 +48,7 @@
     "zod": "^3.25.56"
   },
   "devDependencies": {
+
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -56,6 +61,9 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "prisma": "^6.17.1",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5"
+    "typescript": "^5",
+    "husky": "^9.0.0",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0"
   }
 }
