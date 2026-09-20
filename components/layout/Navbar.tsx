@@ -59,25 +59,24 @@ export default function Navbar() {
           animate={{ y: 0, x: '-50%', opacity: 1 }}
           exit={{ y: -100, x: '-50%', opacity: 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-4xl"
+          className="fixed top-5 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-4xl"
         >
           {/* Main Floating Capsule */}
-          <div className="relative flex items-center justify-between bg-bg-surface/30 dark:bg-bg-surface/20 backdrop-blur-glass border border-glass-border px-6 py-3 rounded-pill shadow-glass">
+          <div 
+            className="relative flex items-center justify-between backdrop-blur-xl border border-white/20 px-5 md:px-6 py-2.5 md:py-3 rounded-full shadow-[0_4px_30px_rgba(0,0,0,0.2)]"
+            style={{ background: 'rgba(9, 12, 26, 0.25)' }}
+          >
             
-            {/* Logo */}
-            <Link href={`/?persona=${activePersona}`} className="flex items-center gap-2.5 group cursor-pointer">
-              <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-glass-border bg-bg-surface/50 p-1.5 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                <Image 
-                  src="/images/snowdev-logo.png" 
-                  alt="SnowDev Logo" 
-                  width={20} 
-                  height={20} 
-                  className="object-contain"
-                />
-              </div>
-              <span className="font-display font-bold text-xl tracking-tight text-text-primary">
-                Snow<span className="transition-colors duration-300" style={{ color: themeAccent }}>Dev</span>
-              </span>
+            {/* Pure Logomark (No background box) */}
+            <Link href={`/?persona=${activePersona}`} className="flex items-center group cursor-pointer transition-transform duration-300 hover:scale-105">
+              <Image 
+                src="/brand/snowdev-logo-transparent.png" 
+                alt="SnowDev Monogram" 
+                width={30} 
+                height={30} 
+                priority
+                className="w-7 h-7 md:w-8 md:h-8 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
+              />
             </Link>
 
             {/* Desktop Navigation Links */}
@@ -95,7 +94,7 @@ export default function Navbar() {
                         layoutId="activeNavHighlight"
                         className="absolute inset-0 rounded-full -z-10"
                         style={{
-                          background: `radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 100%)`,
+                          background: `radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, transparent 100%)`,
                           borderBottom: `2px solid ${themeAccent}`,
                         }}
                         transition={{ type: 'spring', stiffness: 380, damping: 30 }}
@@ -111,7 +110,7 @@ export default function Navbar() {
             <div className="hidden md:flex items-center">
               <Button
                 asChild
-                className="rounded-full font-medium transition-transform duration-200 hover:scale-105"
+                className="rounded-full font-medium text-xs md:text-sm px-5 py-2 transition-transform duration-200 hover:scale-105"
                 style={{
                   backgroundColor: themeAccent,
                   color: '#ffffff',
@@ -125,10 +124,10 @@ export default function Navbar() {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="flex md:hidden p-2 text-text-secondary hover:text-text-primary focus:outline-none"
+              className="flex md:hidden p-1.5 text-white hover:text-white/80 focus:outline-none transition-colors"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileMenuOpen ? <X size={22} className="text-white" /> : <Menu size={22} className="text-white" />}
             </button>
           </div>
 
@@ -140,7 +139,7 @@ export default function Navbar() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -20 }}
                 transition={{ duration: 0.2 }}
-                className="absolute top-full left-0 right-0 mt-2 bg-bg-surface/90 backdrop-blur-lg border border-glass-border p-4 rounded-3xl shadow-xl flex flex-col gap-3 md:hidden"
+                className="absolute top-full left-0 right-0 mt-2 bg-black/90 backdrop-blur-xl border border-white/15 p-4 rounded-3xl shadow-2xl flex flex-col gap-3 md:hidden"
               >
                 {NAV_LINKS.map(link => (
                   <Link
