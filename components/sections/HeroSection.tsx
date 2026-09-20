@@ -35,10 +35,10 @@ function CrystalPortal({ themeAccent }: { themeAccent: string }) {
     <>
       {/* Crystal 1 — Bottom-Left (rotate 30deg, scaleX -1) */}
       <div
-        className="fixed bottom-0 -left-[80px] sm:-left-[100px] md:-left-[150px] w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[500px] md:h-[500px] lg:w-[580px] lg:h-[580px] pointer-events-none select-none"
+        className="fixed -bottom-[80px] -left-[130px] sm:-bottom-[100px] sm:-left-[160px] md:-bottom-[140px] md:-left-[220px] w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[500px] md:h-[500px] lg:w-[580px] lg:h-[580px] pointer-events-none select-none"
         style={{
           zIndex: 1,
-          transform: 'scaleX(-1) rotate(30deg) translateY(-8%)',
+          transform: 'scaleX(-1) rotate(30deg)',
           transformOrigin: 'center center',
         }}
       >
@@ -55,10 +55,10 @@ function CrystalPortal({ themeAccent }: { themeAccent: string }) {
 
       {/* Crystal 2 — Top-Right (rotate 210deg, scaleX -1) */}
       <div
-        className="fixed top-0 -right-[80px] sm:-right-[100px] md:-right-[150px] w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[500px] md:h-[500px] lg:w-[580px] lg:h-[580px] pointer-events-none select-none"
+        className="fixed -top-[80px] -right-[130px] sm:-top-[100px] sm:-right-[160px] md:-top-[140px] md:-right-[220px] w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[500px] md:h-[500px] lg:w-[580px] lg:h-[580px] pointer-events-none select-none"
         style={{
           zIndex: 1,
-          transform: 'scaleX(-1) rotate(210deg) translateY(-8%)',
+          transform: 'scaleX(-1) rotate(210deg)',
           transformOrigin: 'center center',
         }}
       >
