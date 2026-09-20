@@ -162,6 +162,14 @@ export default function HeroSection() {
 
         </div>
 
+        {/* Bottom atmospheric shadow transition — softly dissolves the bottom crystal and blends hero into next sections */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-44 sm:h-64 pointer-events-none z-[3]"
+          style={{
+            background: 'linear-gradient(to top, #060618 0%, rgba(6, 6, 24, 0.85) 40%, rgba(6, 6, 24, 0.3) 75%, transparent 100%)'
+          }}
+        />
+
       </section>
   )
 }
