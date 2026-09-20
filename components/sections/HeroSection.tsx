@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePersona } from '@/hooks/usePersona'
 import { PersonaId } from '@/types/persona'
@@ -40,65 +39,6 @@ const PERSONA_HERO_DESCRIPTIONS: Record<PersonaId, string> = {
   entrepreneur: 'I build high-growth tech ventures and agile MVPs. Architecting digital products, aligning technology with business models, and executing with speed.'
 }
 
-/** Crystal monoliths rendered via React portal into document.body
- *  so they are completely free from any parent clipping / z-index stacking.
- *  They auto-unmount when HeroSection unmounts (i.e., on other pages). */
-function CrystalPortal({ themeAccent }: { themeAccent: string }) {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-    return () => setMounted(false)
-  }, [])
-
-  if (!mounted) return null
-
-  return createPortal(
-    <>
-      {/* Crystal 1 — Bottom-Left (rotate 30deg, scaleX -1) */}
-      <div
-        className="fixed -bottom-[80px] -left-[130px] sm:-bottom-[100px] sm:-left-[160px] md:-bottom-[140px] md:-left-[220px] w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[500px] md:h-[500px] lg:w-[580px] lg:h-[580px] pointer-events-none select-none"
-        style={{
-          zIndex: 1,
-          transform: 'scaleX(-1) rotate(30deg)',
-          transformOrigin: 'center center',
-        }}
-      >
-        <div
-          className="absolute inset-0 rounded-full blur-[80px] opacity-25 transition-all duration-700"
-          style={{ background: `radial-gradient(circle, ${themeAccent} 0%, transparent 70%)` }}
-        />
-        <video autoPlay loop muted playsInline className="w-full h-full object-contain mix-blend-screen">
-          <source src="/videos/crystal-transparent.webm" type="video/webm" />
-          <source src="/videos/crystal-black-700.mp4" type="video/mp4" />
-          <source src="/videos/crystal-loop.mp4" type="video/mp4" />
-        </video>
-      </div>
-
-      {/* Crystal 2 — Top-Right (rotate 210deg, scaleX -1) */}
-      <div
-        className="fixed -top-[80px] -right-[130px] sm:-top-[100px] sm:-right-[160px] md:-top-[140px] md:-right-[220px] w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[500px] md:h-[500px] lg:w-[580px] lg:h-[580px] pointer-events-none select-none"
-        style={{
-          zIndex: 1,
-          transform: 'scaleX(-1) rotate(210deg)',
-          transformOrigin: 'center center',
-        }}
-      >
-        <div
-          className="absolute inset-0 rounded-full blur-[80px] opacity-25 transition-all duration-700"
-          style={{ background: `radial-gradient(circle, ${themeAccent} 0%, transparent 70%)` }}
-        />
-        <video autoPlay loop muted playsInline className="w-full h-full object-contain mix-blend-screen">
-          <source src="/videos/crystal-transparent.webm" type="video/webm" />
-          <source src="/videos/crystal-black-700.mp4" type="video/mp4" />
-          <source src="/videos/crystal-loop.mp4" type="video/mp4" />
-        </video>
-      </div>
-    </>,
-    document.body
-  )
-}
-
 export default function HeroSection() {
   const { activePersona, personaConfig } = usePersona()
   const [wordIndex, setWordIndex] = useState(0)
@@ -125,22 +65,56 @@ export default function HeroSection() {
   }, { scope: containerRef, dependencies: [] })
 
   return (
-    <>
-      {/* Crystals escape all clipping via React portal into document.body */}
-      <CrystalPortal themeAccent={themeAccent} />
+    <section
+      ref={containerRef}
+      className="relative w-full min-h-screen -mt-28 flex flex-col items-center justify-center text-center px-6 z-[2] overflow-hidden"
+    >
+      {/* Center depth vignette glow */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0 opacity-10 blur-[130px] transition-all duration-700"
+        style={{ background: `radial-gradient(circle at center, ${themeAccent} 0%, transparent 65%)` }}
+      />
 
-      <section
-        ref={containerRef}
-        className="relative w-full min-h-screen -mt-28 flex flex-col items-center justify-center text-center px-6 z-[2]"
+      {/* Crystal 1 — Bottom-Left (strictly in Hero, scrolls away with hero, brought inwards) */}
+      <div
+        className="absolute -bottom-[35px] -left-[60px] sm:-bottom-[50px] sm:-left-[85px] md:-bottom-[80px] md:-left-[120px] w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[500px] md:h-[500px] lg:w-[580px] lg:h-[580px] pointer-events-none select-none z-[1]"
+        style={{
+          transform: 'scaleX(-1) rotate(30deg)',
+          transformOrigin: 'center center',
+        }}
       >
-        {/* Center depth vignette glow */}
         <div
-          className="absolute inset-0 pointer-events-none z-0 opacity-10 blur-[130px] transition-all duration-700"
-          style={{ background: `radial-gradient(circle at center, ${themeAccent} 0%, transparent 65%)` }}
+          className="absolute inset-0 rounded-full blur-[80px] opacity-25 transition-all duration-700"
+          style={{ background: `radial-gradient(circle, ${themeAccent} 0%, transparent 70%)` }}
         />
+        <video autoPlay loop muted playsInline className="w-full h-full object-contain mix-blend-screen">
+          <source src="/videos/crystal-transparent.webm" type="video/webm" />
+          <source src="/videos/crystal-black-700.mp4" type="video/mp4" />
+          <source src="/videos/crystal-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
 
-        {/* Main content — z-10 above crystals (z-1), below navbar (z-100) */}
-        <div className="max-w-4xl mx-auto flex flex-col items-center gap-3 sm:gap-5 relative z-10 pt-10 sm:pt-14">
+      {/* Crystal 2 — Top-Right (strictly in Hero, scrolls away with hero, brought inwards) */}
+      <div
+        className="absolute -top-[35px] -right-[60px] sm:-top-[50px] sm:-right-[85px] md:-top-[80px] md:-right-[120px] w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[500px] md:h-[500px] lg:w-[580px] lg:h-[580px] pointer-events-none select-none z-[1]"
+        style={{
+          transform: 'scaleX(-1) rotate(210deg)',
+          transformOrigin: 'center center',
+        }}
+      >
+        <div
+          className="absolute inset-0 rounded-full blur-[80px] opacity-25 transition-all duration-700"
+          style={{ background: `radial-gradient(circle, ${themeAccent} 0%, transparent 70%)` }}
+        />
+        <video autoPlay loop muted playsInline className="w-full h-full object-contain mix-blend-screen">
+          <source src="/videos/crystal-transparent.webm" type="video/webm" />
+          <source src="/videos/crystal-black-700.mp4" type="video/mp4" />
+          <source src="/videos/crystal-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+      {/* Main content — z-10 above crystals (z-1), below navbar (z-100) */}
+      <div className="max-w-4xl mx-auto flex flex-col items-center gap-3 sm:gap-5 relative z-10 pt-10 sm:pt-14">
 
           {/* Aeruk-style clean typographic rotating eyebrow (no pill box, no sparkle) */}
           <div className="hero-eyebrow opacity-0 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold tracking-widest uppercase h-6">
@@ -189,6 +163,5 @@ export default function HeroSection() {
         </div>
 
       </section>
-    </>
   )
 }
