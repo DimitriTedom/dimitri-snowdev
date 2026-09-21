@@ -136,16 +136,16 @@ export default function HeroSection() {
             </span>
           </div>
 
-          {/* Giant Title: Aeruk-style — pure white monolithic name, glow responds to persona */}
+          {/* Giant Title: Aeruk-style — horizontal white→accent gradient across full word */}
           <h1
             className="hero-title opacity-0 font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight uppercase leading-none select-none my-1"
             style={{
-              background: 'linear-gradient(170deg, #ffffff 0%, rgba(255,255,255,0.82) 100%)',
+              background: `linear-gradient(to right, #ffffff 0%, ${themeAccent} 100%)`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               filter: `drop-shadow(0 0 38px ${themeAccent}55)`,
-              transition: 'filter 0.5s ease',
+              transition: 'background 0.5s ease, filter 0.5s ease',
             }}
           >
             SNOWDEV
