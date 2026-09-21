@@ -11,10 +11,10 @@ export default {
   theme: {
   	extend: {
   		colors: {
-  			'bg-deep': '#060618',
-  			'bg-base': '#090c1a',
-  			'bg-surface': '#0d1029',
-  			'bg-elevated': '#111432',
+  			'bg-deep': '#000000',
+  			'bg-base': '#08080a',
+  			'bg-surface': '#0f0f13',
+  			'bg-elevated': '#16161c',
   			accent: {
   				DEFAULT: '#5e17eb',
   				secondary: '#5930d4',

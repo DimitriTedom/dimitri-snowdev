@@ -4,14 +4,14 @@
 
 @layer base {
   :root {
-    /* Dark mode only for SnowDev V2 */
-    --background: 224 71% 4%;     /* #060618 */
+    /* Dark mode only for SnowDev V2 — Pure pitch black canvas like Aeruk */
+    --background: 0 0% 0%;        /* #000000 */
     --foreground: 210 40% 98%;    /* #ffffff */
 
-    --card: 228 67% 7%;           /* #090c1a */
+    --card: 240 10% 4%;           /* #0a0a0c ultra-dark obsidian */
     --card-foreground: 210 40% 98%;
 
-    --popover: 228 67% 7%;        /* #090c1a */
+    --popover: 240 10% 4%;        /* #0a0a0c */
     --popover-foreground: 210 40% 98%;
 
     --primary: 259 82% 51%;       /* #5e17eb */
@@ -29,8 +29,8 @@
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217 32% 17%;
-    --input: 217 32% 17%;
+    --border: 240 6% 14%;
+    --input: 240 6% 14%;
     --ring: 259 82% 51%;          /* violet accent */
 
     --radius: 0.75rem;
@@ -41,7 +41,7 @@
   }
 
   body {
-    background-color: #060618;
+    background-color: #000000;
     color: hsl(var(--foreground));
     @apply antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -52,7 +52,7 @@
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #060618;
+    background: #000000;
   }
   ::-webkit-scrollbar-thumb {
     background: #5e17eb;
