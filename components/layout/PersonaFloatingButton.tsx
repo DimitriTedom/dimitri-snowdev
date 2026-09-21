@@ -34,7 +34,7 @@ export default function PersonaFloatingButton() {
   const ActiveIcon = iconMap[activePersona] || Code2
 
   return (
-    <div ref={containerRef} className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div ref={containerRef} className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 flex flex-col items-end">
       
       {/* Popover Card */}
       <AnimatePresence>
