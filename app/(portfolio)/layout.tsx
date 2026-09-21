@@ -7,9 +7,9 @@ import Footer from '@/components/layout/Footer'
 
 export default function PortfolioLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-bg-deep flex items-center justify-center text-text-secondary">Loading...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center text-text-secondary">Loading...</div>}>
       <PersonaProvider>
-        <div className="relative min-h-screen bg-bg-deep flex flex-col justify-between overflow-x-hidden">
+        <div className="relative min-h-screen bg-black flex flex-col justify-between overflow-x-hidden">
           <Navbar />
           <SidebarSocials />
           

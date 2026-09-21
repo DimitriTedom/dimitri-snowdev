@@ -30,7 +30,7 @@ export default async function Footer() {
   ]
 
   return (
-    <footer className="w-full bg-bg-deep border-t border-glass-border/30 py-12 md:py-16 mt-20 relative overflow-hidden">
+    <footer className="w-full bg-black border-t border-white/[0.06] py-12 md:py-16 mt-20 relative overflow-hidden">
       {/* Background radial glow */}
       <div 
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] opacity-10 blur-[120px] pointer-events-none rounded-full"
