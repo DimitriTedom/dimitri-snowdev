@@ -136,9 +136,19 @@ export default function HeroSection() {
             </span>
           </div>
 
-          {/* Giant Title: Aeruk-style SNOWDEV with split color */}
-          <h1 className="hero-title opacity-0 font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight uppercase text-white leading-none select-none my-1">
-            SNOW<span className="transition-colors duration-500" style={{ color: highlightColor, textShadow: `0 0 45px ${themeAccent}99` }}>DEV</span>
+          {/* Giant Title: Aeruk-style — pure white monolithic name, glow responds to persona */}
+          <h1
+            className="hero-title opacity-0 font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight uppercase leading-none select-none my-1"
+            style={{
+              background: 'linear-gradient(170deg, #ffffff 0%, rgba(255,255,255,0.82) 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: `drop-shadow(0 0 38px ${themeAccent}55)`,
+              transition: 'filter 0.5s ease',
+            }}
+          >
+            SNOWDEV
           </h1>
 
           {/* Tagline: Aeruk-style concise 2-3 line statement */}
