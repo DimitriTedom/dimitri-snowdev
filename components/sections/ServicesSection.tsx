@@ -1,210 +1,237 @@
 'use client'
 
+import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
-import type { Variants } from 'framer-motion'
-import { motion } from 'framer-motion'
-import { Code2, Cpu, Cloud, ArrowUpRight, Sparkles } from 'lucide-react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ArrowUpRight } from 'lucide-react'
 import { usePersona } from '@/hooks/usePersona'
 import { SERVICES } from '@/data/services'
+import SVCrystalScrubber from '@/components/animations/SVCrystalScrubber'
 
-const containerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.15, delayChildren: 0.1 },
-  },
-}
+gsap.registerPlugin(ScrollTrigger)
 
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+// Minimal service card — same on left and right (Trionn pattern)
+function ServiceCard({
+  title,
+  shortDescription,
+  icon,
+  accentLight,
+  align,
+}: {
+  title: string
+  shortDescription: string
+  icon: string
+  accentLight: string
+  align: 'left' | 'right'
+}) {
+  const isRight = align === 'right'
+  return (
+    <div className={`flex flex-col gap-3 py-10 will-change-transform ${isRight ? 'items-end text-right' : 'items-start text-left'}`}>
+      <div className="flex-shrink-0 w-10 h-10 opacity-55" style={{ color: accentLight }}>
+        {icon === 'code' && (
+          <svg viewBox="0 0 40 40" fill="none" className="w-full h-full">
+            {[0, 1, 2].flatMap(r => [0, 1, 2].map(c => (
+              <circle key={`${r}-${c}`} cx={8 + c * 12} cy={8 + r * 12} r="2" stroke="currentColor" strokeWidth="1.5" />
+            )))}
+            {[0, 1, 2].flatMap(r => [0, 1].map(c => (
+              <line key={`h-${r}-${c}`} x1={10 + c * 12} y1={8 + r * 12} x2={18 + c * 12} y2={8 + r * 12} stroke="currentColor" strokeWidth="1" opacity="0.7" />
+            )))}
+            {[0, 1].flatMap(r => [0, 1, 2].map(c => (
+              <line key={`v-${r}-${c}`} x1={8 + c * 12} y1={10 + r * 12} x2={8 + c * 12} y2={18 + r * 12} stroke="currentColor" strokeWidth="1" opacity="0.7" />
+            )))}
+          </svg>
+        )}
+        {icon === 'bot' && (
+          <svg viewBox="0 0 40 40" fill="none" className="w-full h-full">
+            {[0, 1, 2, 3].map(i => <circle key={`l0-${i}`} cx="6" cy={5 + i * 9} r="2.5" stroke="currentColor" strokeWidth="1.5" />)}
+            {[0, 1, 2].map(i => <circle key={`l1-${i}`} cx="20" cy={9 + i * 11} r="2.5" stroke="currentColor" strokeWidth="1.5" />)}
+            {[0, 1].map(i => <circle key={`l2-${i}`} cx="34" cy={14 + i * 12} r="2.5" stroke="currentColor" strokeWidth="1.5" />)}
+            {[0, 1, 2, 3].flatMap(i => [0, 1, 2].map(j => <line key={`c0-${i}-${j}`} x1="8.5" y1={5 + i * 9} x2="17.5" y2={9 + j * 11} stroke="currentColor" strokeWidth="0.75" opacity="0.5" />))}
+            {[0, 1, 2].flatMap(i => [0, 1].map(j => <line key={`c1-${i}-${j}`} x1="22.5" y1={9 + i * 11} x2="31.5" y2={14 + j * 12} stroke="currentColor" strokeWidth="0.75" opacity="0.5" />))}
+          </svg>
+        )}
+        {icon === 'cloud' && (
+          <svg viewBox="0 0 40 40" fill="none" className="w-full h-full">
+            <polygon points="20,4 27,8.5 27,17.5 20,22 13,17.5 13,8.5" stroke="currentColor" strokeWidth="1.2" opacity="0.35" />
+            <polygon points="20,9 24,11.5 24,16.5 20,19 16,16.5 16,11.5" stroke="currentColor" strokeWidth="1.2" opacity="0.65" />
+            <polygon points="20,13 22,14.5 22,17.5 20,19 18,17.5 18,14.5" stroke="currentColor" strokeWidth="1.5" />
+            {[0, 1, 2, 3, 4, 5].map(i => {
+              const a = (i * 60 - 90) * Math.PI / 180
+              return <line key={i} x1="20" y1="20" x2={20 + Math.cos(a) * 14} y2={20 + Math.sin(a) * 14} stroke="currentColor" strokeWidth="0.75" opacity="0.4" />
+            })}
+          </svg>
+        )}
+      </div>
+      <h3 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl text-white uppercase tracking-tight leading-none">
+        {title}
+      </h3>
+      <p className="text-sm text-white/42 leading-relaxed max-w-[220px]">
+        {shortDescription}
+      </p>
+    </div>
+  )
 }
 
 export default function ServicesSection() {
   const { activePersona, personaConfig } = usePersona()
-  const themeAccent = personaConfig?.theme?.accent || '#5e17eb'
-  const themeAccentLight = personaConfig?.theme?.accentLight || themeAccent
+  const accent = personaConfig?.theme?.accent ?? '#5e17eb'
+  const accentLight = personaConfig?.theme?.accentLight ?? '#ae6bf6'
+  const [scrollProgress, setScrollProgress] = useState(0)
 
-  const getServiceIcon = (iconName: string) => {
-    switch (iconName) {
-      case 'bot':
-        return <Cpu className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
-      case 'cloud':
-        return <Cloud className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
-      default:
-        return <Code2 className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
-    }
-  }
+  const sectionRef = useRef<HTMLElement>(null)
+  const leftColRef = useRef<HTMLDivElement>(null)
+  const rightColRef = useRef<HTMLDivElement>(null)
+  const crystalRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    const leftCol = leftColRef.current
+    const rightCol = rightColRef.current
+    if (!section || !leftCol || !rightCol) return
+
+    const leftCards = gsap.utils.toArray<HTMLElement>('.svc-card-left')
+    const rightCards = gsap.utils.toArray<HTMLElement>('.svc-card-right')
+    const n = leftCards.length
+    const scrollLength = window.innerHeight * 5
+
+    const mm = gsap.matchMedia()
+
+    mm.add('(min-width: 768px)', () => {
+      ScrollTrigger.create({
+        trigger: section, start: 'top top', end: `+=${scrollLength}`,
+        pin: true, anticipatePin: 1,
+        onUpdate: (self) => {
+          setScrollProgress(self.progress)
+        },
+      })
+
+      gsap.fromTo(leftCol, { y: leftCol.scrollHeight * 0.48 }, {
+        y: -leftCol.scrollHeight * 0.48, ease: 'none',
+        scrollTrigger: { trigger: section, start: 'top top', end: `+=${scrollLength}`, scrub: 1.4 },
+      })
+
+      gsap.fromTo(rightCol, { y: -rightCol.scrollHeight * 0.48 }, {
+        y: rightCol.scrollHeight * 0.48, ease: 'none',
+        scrollTrigger: { trigger: section, start: 'top top', end: `+=${scrollLength}`, scrub: 1.4 },
+      })
+
+      const applyArcFade = (cards: HTMLElement[], dir: 1 | -1) => {
+        cards.forEach((card, i) => {
+          const enter = (i / n) * scrollLength
+          const peak = ((i + 0.5) / n) * scrollLength
+          const exit = ((i + 1) / n) * scrollLength
+          gsap.fromTo(card, { opacity: 0, scale: 0.78, rotateX: dir * 30 }, {
+            opacity: 1, scale: 1, rotateX: 0, ease: 'power2.out',
+            scrollTrigger: { trigger: section, start: `top+=${enter * 0.88} top`, end: `top+=${peak} top`, scrub: 1 },
+          })
+          gsap.fromTo(card, { opacity: 1, scale: 1, rotateX: 0 }, {
+            opacity: 0, scale: 0.78, rotateX: dir * -30, ease: 'power2.in',
+            scrollTrigger: { trigger: section, start: `top+=${peak} top`, end: `top+=${exit * 1.12} top`, scrub: 1 },
+          })
+        })
+      }
+      applyArcFade(leftCards, 1)
+      applyArcFade(rightCards, -1)
+
+      if (crystalRef.current) {
+        gsap.fromTo(crystalRef.current, { scale: 0.55, opacity: 0, y: -50 }, {
+          scale: 1, opacity: 1, y: 0, ease: 'power3.out', duration: 1.1,
+          scrollTrigger: { trigger: section, start: 'top 85%', end: 'top top', scrub: false, toggleActions: 'play none none reverse' },
+        })
+      }
+    })
+
+    mm.add('(max-width: 767px)', () => {
+      gsap.from([...leftCards, ...rightCards], {
+        opacity: 0, y: 35, stagger: 0.13, ease: 'power2.out',
+        scrollTrigger: { trigger: section, start: 'top 80%', toggleActions: 'play none none reverse' },
+      })
+    })
+
+    return () => mm.revert()
+  }, [activePersona])
 
   return (
-    <section id="services" className="relative w-full py-24 md:py-32 px-6 overflow-hidden">
-      <div className="max-w-6xl mx-auto">
-        {/* Aeruk-style Manifesto Header */}
-        <div className="mb-16 md:mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col gap-8"
-          >
-            {/* Tagline */}
-            <p
-              className="text-xs font-semibold tracking-[0.25em] uppercase font-mono"
-              style={{ color: themeAccent }}
-            >
-              Expertise & Solutions
-            </p>
+    <>
+      <style>{`
+        @keyframes svPulse {
+          0%,100% { opacity:0; transform:scale(0.82); }
+          50%      { opacity:1; transform:scale(1.12); }
+        }
+      `}</style>
 
-            {/* Aeruk bold narrative text */}
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-sans font-normal text-white/90 leading-snug md:leading-relaxed max-w-4xl">
-              Forged with triple expertise in{' '}
-              <span className="font-bold text-white underline decoration-2 underline-offset-8" style={{ textDecorationColor: themeAccent }}>
-                modern full-stack engineering
-              </span>
-              ,{' '}
-              <span className="font-bold text-white underline decoration-2 underline-offset-8" style={{ textDecorationColor: themeAccent }}>
-                autonomous AI systems
-              </span>{' '}
-              and{' '}
-              <span className="font-bold text-white underline decoration-2 underline-offset-8" style={{ textDecorationColor: themeAccent }}>
-                cloud architecture
-              </span>
-              , I architect high-performance digital ecosystems. My mission: delivering{' '}
-              <span className="font-bold text-white">unique, resilient, and custom-tailored solutions</span> that accelerate your ambitions.
-            </h2>
+      <section
+        ref={sectionRef}
+        id="services"
+        className="relative w-full min-h-screen overflow-hidden"
+        style={{ background: 'linear-gradient(180deg,#060618 0%,#07081a 50%,#060618 100%)' }}
+      >
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: `radial-gradient(ellipse 52% 42% at 50% 50%,${accent}0c 0%,transparent 68%)` }}
+        />
 
-            {/* Aeruk dual action buttons */}
-            <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
-              <Link
-                href={`/contact?persona=${activePersona}`}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-white transition-all duration-300 group border"
-                style={{
-                  backgroundColor: `${themeAccent}28`,
-                  borderColor: `${themeAccent}70`,
-                  boxShadow: `0 0 25px -5px ${themeAccent}50`,
-                }}
-              >
-                <span>Start a project</span>
-                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </Link>
+        {/* Top fade mask (blends into hero below) */}
+        <div className="pointer-events-none absolute top-0 left-0 right-0 h-32 z-10"
+          style={{ background: 'linear-gradient(to bottom,#060618,transparent)' }} />
 
-              <Link
-                href={`/services?persona=${activePersona}`}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-white/80 hover:text-white transition-all duration-300 group border border-white/20 hover:border-white/40 bg-white/[0.03]"
-              >
-                <span>Explore Services</span>
-                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-white/50 group-hover:text-white" />
-              </Link>
+        {/* 3D perspective stage */}
+        <div
+          className="relative flex items-center justify-center w-full h-screen"
+          style={{ perspective: '900px', perspectiveOrigin: '50% 50%' }}
+        >
+          {/* LEFT — rolls UP */}
+          <div className="absolute left-0 w-[38%] h-full flex items-center overflow-hidden pl-8 md:pl-16 lg:pl-24 pr-2">
+            <div ref={leftColRef} className="flex flex-col w-full" style={{ transformStyle: 'preserve-3d' }}>
+              {SERVICES.map(svc => (
+                <div key={svc.id} className="svc-card-left">
+                  <ServiceCard title={svc.title} shortDescription={svc.shortDescription} icon={svc.icon} accentLight={accentLight} align="left" />
+                </div>
+              ))}
             </div>
-          </motion.div>
+          </div>
+
+          {/* CENTER — SV Crystal Scrubber / Placeholder */}
+          <div ref={crystalRef} className="relative z-10 flex-shrink-0">
+            <SVCrystalScrubber accent={accent} accentLight={accentLight} progress={scrollProgress} />
+          </div>
+
+          {/* RIGHT — rolls DOWN */}
+          <div className="absolute right-0 w-[38%] h-full flex items-center overflow-hidden pr-8 md:pr-16 lg:pr-24 pl-2">
+            <div ref={rightColRef} className="flex flex-col w-full" style={{ transformStyle: 'preserve-3d' }}>
+              {SERVICES.map(svc => (
+                <div key={svc.id} className="svc-card-right">
+                  <ServiceCard title={svc.title} shortDescription={svc.shortDescription} icon={svc.icon} accentLight={accentLight} align="right" />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* 3 Services Cards Grid (Aeruk signature) */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
-        >
-          {SERVICES.map((service) => {
-            const isPersonaAffinity = service.personas.includes(activePersona)
+        {/* Bottom CTAs */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4 flex-wrap justify-center">
+          <Link
+            href={`/contact?persona=${activePersona}`}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white border transition-all duration-300 group hover:scale-105"
+            style={{ background: `${accent}28`, borderColor: `${accent}60`, boxShadow: `0 0 25px -8px ${accent}55` }}
+          >
+            Start a Project
+            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
+          <Link
+            href={`/services?persona=${activePersona}`}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white/55 hover:text-white border border-white/12 hover:border-white/28 bg-white/[0.02] transition-all duration-300 group hover:scale-105"
+          >
+            View All Services
+            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
+        </div>
 
-            return (
-              <motion.div
-                key={service.id}
-                variants={cardVariants}
-                className="group relative flex flex-col justify-between p-8 md:p-9 rounded-[24px] border transition-all duration-500 bg-[#0c0d12]/90 hover:-translate-y-1.5"
-                style={{
-                  borderColor: isPersonaAffinity ? `${themeAccent}40` : 'rgba(255, 255, 255, 0.12)',
-                  boxShadow: isPersonaAffinity
-                    ? `0 4px 30px rgba(0, 0, 0, 0.7), 0 0 30px -10px ${themeAccent}25`
-                    : '0 4px 30px rgba(0, 0, 0, 0.7)',
-                }}
-              >
-                {/* Top: Icon + Badge */}
-                <div>
-                  <div className="flex items-center justify-between mb-8">
-                    <div
-                      className="w-16 h-16 rounded-2xl flex items-center justify-center border transition-colors duration-300"
-                      style={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                        borderColor: isPersonaAffinity ? `${themeAccent}50` : 'rgba(255, 255, 255, 0.15)',
-                      }}
-                    >
-                      {getServiceIcon(service.icon)}
-                    </div>
-
-                    {isPersonaAffinity && (
-                      <span
-                        className="inline-flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-full border"
-                        style={{
-                          backgroundColor: `${themeAccent}18`,
-                          borderColor: `${themeAccent}40`,
-                          color: themeAccentLight,
-                        }}
-                      >
-                        <Sparkles className="w-3 h-3" />
-                        Focus
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Title & Tagline */}
-                  <h3 className="font-display font-bold text-xl md:text-2xl text-white uppercase tracking-tight mb-2">
-                    {service.title}
-                  </h3>
-                  <p
-                    className="text-xs font-mono uppercase tracking-wider mb-4 font-medium"
-                    style={{ color: themeAccentLight }}
-                  >
-                    {service.tagline}
-                  </p>
-
-                  {/* Description */}
-                  <p className="text-sm md:text-[15px] text-[#d6d6d6]/80 leading-relaxed mb-6 font-sans">
-                    {service.description}
-                  </p>
-
-                  {/* Key Features */}
-                  <div className="space-y-2.5 pt-4 border-t border-white/[0.08]">
-                    {service.features.map((feature) => (
-                      <div key={feature} className="flex items-start gap-2.5 text-xs text-white/70">
-                        <span className="text-[10px] mt-0.5" style={{ color: themeAccentLight }}>
-                          ✦
-                        </span>
-                        <span className="leading-snug">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Bottom Card Action */}
-                <div className="pt-8 mt-6 border-t border-white/[0.06] flex items-center justify-between">
-                  <Link
-                    href={`/contact?persona=${activePersona}&service=${service.id}`}
-                    className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white/70 group-hover:text-white transition-colors"
-                  >
-                    <span>Start This Project</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                  </Link>
-
-                  <div
-                    className="w-2 h-2 rounded-full transition-all duration-300 group-hover:scale-150"
-                    style={{ backgroundColor: themeAccent }}
-                  />
-                </div>
-              </motion.div>
-            )
-          })}
-        </motion.div>
-      </div>
-
-      {/* Subtle bottom separator fade */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-px opacity-15"
-        style={{ background: `linear-gradient(to right, transparent, ${themeAccent}, transparent)` }}
-      />
-    </section>
+        {/* Bottom fade mask */}
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 z-10"
+          style={{ background: 'linear-gradient(to top,#060618,transparent)' }} />
+      </section>
+    </>
   )
 }
