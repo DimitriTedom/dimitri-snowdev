@@ -69,12 +69,6 @@ export default function HeroSection() {
       ref={containerRef}
       className="relative w-full min-h-screen -mt-28 flex flex-col items-center justify-center text-center px-6 z-[2] overflow-hidden"
     >
-      {/* Center depth vignette glow */}
-      <div
-        className="absolute inset-0 pointer-events-none z-0 opacity-10 blur-[130px] transition-all duration-700"
-        style={{ background: `radial-gradient(circle at center, ${themeAccent} 0%, transparent 65%)` }}
-      />
-
       {/* Crystal 1 — Bottom-Left (strictly in Hero, scrolls away with hero, brought inwards) */}
       <div
         className="absolute -bottom-[35px] -left-[60px] sm:-bottom-[50px] sm:-left-[85px] md:-bottom-[80px] md:-left-[120px] w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[500px] md:h-[500px] lg:w-[580px] lg:h-[580px] pointer-events-none select-none z-[1]"
@@ -83,10 +77,6 @@ export default function HeroSection() {
           transformOrigin: 'center center',
         }}
       >
-        <div
-          className="absolute inset-0 rounded-full blur-[80px] opacity-25 transition-all duration-700"
-          style={{ background: `radial-gradient(circle, ${themeAccent} 0%, transparent 70%)` }}
-        />
         <video autoPlay loop muted playsInline className="w-full h-full object-contain mix-blend-screen">
           <source src="/videos/crystal-transparent.webm" type="video/webm" />
           <source src="/videos/crystal-black-700.mp4" type="video/mp4" />
@@ -102,10 +92,6 @@ export default function HeroSection() {
           transformOrigin: 'center center',
         }}
       >
-        <div
-          className="absolute inset-0 rounded-full blur-[80px] opacity-25 transition-all duration-700"
-          style={{ background: `radial-gradient(circle, ${themeAccent} 0%, transparent 70%)` }}
-        />
         <video autoPlay loop muted playsInline className="w-full h-full object-contain mix-blend-screen">
           <source src="/videos/crystal-transparent.webm" type="video/webm" />
           <source src="/videos/crystal-black-700.mp4" type="video/mp4" />
