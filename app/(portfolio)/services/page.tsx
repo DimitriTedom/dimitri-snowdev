@@ -28,7 +28,7 @@ export default function ServicesPage() {
             HOME &gt; SERVICES
           </p>
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-white mb-8">
-            MES SERVICES
+            MY SERVICES
           </h1>
 
           {/* Filter Pills */}
@@ -41,7 +41,7 @@ export default function ServicesPage() {
                   : 'bg-[#1d1d1d] text-white/70 border-white/10 hover:border-white/30'
               }`}
             >
-              Tous
+              All
             </button>
             {SERVICES.map((service) => (
               <button
@@ -95,7 +95,7 @@ export default function ServicesPage() {
                           color: themeAccentLight,
                         }}
                       >
-                        <Sparkles className="w-2.5 h-2.5" /> Recommandé
+                        <Sparkles className="w-2.5 h-2.5" /> Recommended
                       </span>
                     )}
                   </div>
@@ -126,7 +126,7 @@ export default function ServicesPage() {
                       href={`/projects?persona=${activePersona}`}
                       className="px-6 py-3 rounded-full text-xs font-mono uppercase tracking-wider text-white/80 hover:text-white border border-white/20 hover:border-white/40 bg-white/[0.03] transition-all"
                     >
-                      Voir les projets
+                      View Projects
                     </Link>
 
                     <Link
@@ -154,7 +154,7 @@ export default function ServicesPage() {
                   >
                     <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/[0.08]">
                       <span className="text-xs font-mono uppercase tracking-widest text-white/50">
-                        Livrables inclus
+                        Included Deliverables
                       </span>
                       <span
                         className="text-xs font-mono uppercase font-bold"
@@ -177,8 +177,8 @@ export default function ServicesPage() {
                     </div>
 
                     <div className="mt-8 pt-6 border-t border-white/[0.08] flex items-center justify-between text-xs text-white/50">
-                      <span>Accompagnement continu</span>
-                      <span className="font-mono text-white/80">Support inclus</span>
+                      <span>Continuous Partnership</span>
+                      <span className="font-mono text-white/80">Support Included</span>
                     </div>
                   </div>
                 </div>
@@ -190,10 +190,10 @@ export default function ServicesPage() {
         {/* Bottom CTA Block — Aeruk signature */}
         <div className="mt-28 text-center p-12 md:p-16 rounded-[28px] border border-white/[0.12] bg-[#0c0d12]/60 backdrop-blur-md max-w-4xl mx-auto">
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight text-white mb-4">
-            Prêt à donner vie à votre projet ?
+            Ready to bring your vision to life?
           </h2>
           <p className="text-[#d6d6d6] text-sm md:text-base max-w-xl mx-auto mb-8 leading-relaxed">
-            Parlez-moi de vos idées et objectifs, échangeons sur votre vision et concevons ensemble une solution à fort impact.
+            Tell me about your goals and technical ambitions. Let&apos;s discuss your project and architect a high-impact solution together.
           </p>
           <Link
             href={`/contact?persona=${activePersona}`}

@@ -93,7 +93,7 @@ export const PROJECTS: ProjectWithPersonas[] = [
   {
     id: 'da1f3910-1e58-4c91-9e7f-c1f0340b0004',
     slug: 'njangitech-tontine-management',
-    title: 'NjangiTech - Système de Gestion de Tontine',
+    title: 'NjangiTech - Tontine Management System',
     description:
       'A comprehensive Tontine (rotating savings and credit association) management system designed for the university course TP-INF 221. This full-stack application enables groups to efficiently manage their savings pools, track member contributions, monitor cash flow, and maintain transparent financial records. The platform features a modern, intuitive dashboard displaying real-time statistics including cash balance, active members, contribution trends over the last 6 sessions, and credit distribution status. Built with a focus on financial transparency and ease of use, the system streamlines the traditional tontine process while maintaining the community-oriented nature of these savings groups.\n\n🔐 Test Credentials:\n• Email: test@njangitech.com\n• Password: Test123456',
     challenge:

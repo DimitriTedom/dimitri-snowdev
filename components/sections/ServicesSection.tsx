@@ -57,20 +57,20 @@ export default function ServicesSection() {
 
             {/* Aeruk bold narrative text */}
             <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[34px] font-sans font-normal text-white/90 leading-snug md:leading-relaxed max-w-4xl">
-              Forgé d’une triple expertise en{' '}
+              Forged with triple expertise in{' '}
               <span className="font-bold text-white underline decoration-2 underline-offset-8" style={{ textDecorationColor: themeAccent }}>
-                développement fullstack moderne
+                modern full-stack engineering
               </span>
               ,{' '}
               <span className="font-bold text-white underline decoration-2 underline-offset-8" style={{ textDecorationColor: themeAccent }}>
-                ingénierie d’IA autonome
+                autonomous AI systems
               </span>{' '}
-              et{' '}
+              and{' '}
               <span className="font-bold text-white underline decoration-2 underline-offset-8" style={{ textDecorationColor: themeAccent }}>
-                architecture cloud
+                cloud architecture
               </span>
-              , je conçois des systèmes digitaux d’exception. Mon objectif : vous livrer une création{' '}
-              <span className="font-bold text-white">unique, performante et sur-mesure</span> qui propulse vos ambitions.
+              , I architect high-performance digital ecosystems. My mission: delivering{' '}
+              <span className="font-bold text-white">unique, resilient, and custom-tailored solutions</span> that accelerate your ambitions.
             </h2>
 
             {/* Aeruk dual action buttons */}
@@ -92,7 +92,7 @@ export default function ServicesSection() {
                 href={`/services?persona=${activePersona}`}
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-white/80 hover:text-white transition-all duration-300 group border border-white/20 hover:border-white/40 bg-white/[0.03]"
               >
-                <span>En savoir plus</span>
+                <span>Explore Services</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-white/50 group-hover:text-white" />
               </Link>
             </div>
@@ -185,7 +185,7 @@ export default function ServicesSection() {
                     href={`/contact?persona=${activePersona}&service=${service.id}`}
                     className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white/70 group-hover:text-white transition-colors"
                   >
-                    <span>Lancer ce projet</span>
+                    <span>Start This Project</span>
                     <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </Link>
 

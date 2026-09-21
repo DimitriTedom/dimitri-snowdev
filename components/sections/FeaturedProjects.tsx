@@ -98,7 +98,7 @@ export default function FeaturedProjects() {
               boxShadow: `0 0 20px -5px ${themeAccent}40`,
             }}
           >
-            <span>Tous les projets</span>
+            <span>View All Projects</span>
             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
           </Link>
         </motion.div>
@@ -133,7 +133,7 @@ export default function FeaturedProjects() {
               borderColor: `${themeAccent}50`,
             }}
           >
-            <span>Tous les projets</span>
+            <span>View All Projects</span>
             <ArrowUpRight className="w-4 h-4" />
           </Link>
         </div>
