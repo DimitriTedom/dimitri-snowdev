@@ -3,7 +3,6 @@ import FeaturedProjects from '@/components/sections/FeaturedProjects'
 import ServicesSection from '@/components/sections/ServicesSection'
 import TechStackSection from '@/components/sections/TechStackSection'
 import ExperienceSection from '@/components/sections/ExperienceSection'
-import ContactStrip from '@/components/sections/ContactStrip'
 
 export default function PortfolioHome() {
   return (
@@ -13,7 +12,6 @@ export default function PortfolioHome() {
       <ServicesSection />
       <TechStackSection />
       <ExperienceSection />
-      <ContactStrip />
     </>
   )
 }
