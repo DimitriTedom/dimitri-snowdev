@@ -14,10 +14,8 @@ export default function PortfolioHome() {
       {/* Services — crystal descends naturally from hero bottom edge */}
       <ServicesSection />
 
-      {/* T2: Services → Projects — horizontal split curtain wipe */}
-      <SectionTransition type="horizontal-split">
-        <FeaturedProjects />
-      </SectionTransition>
+      {/* Featured Projects — horizontal pinned scroll (Trionn style) */}
+      <FeaturedProjects />
 
       {/* T3: Projects → TechStack — scale-blur reveal */}
       <SectionTransition type="scale-blur">

@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
 import { ArrowUpRight } from 'lucide-react'
 import { usePersona } from '@/hooks/usePersona'
 import { SERVICES } from '@/data/services'
@@ -163,9 +164,10 @@ export default function ServicesSection() {
   // Right Column (2 services): AI Engineering, MVP Engineering
   const rightServices = [SERVICES[1], SERVICES[3]]
 
-  useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
+  useGSAP(
+    () => {
+      const section = sectionRef.current
+      if (!section) return
 
     const mm = gsap.matchMedia()
 
@@ -181,13 +183,14 @@ export default function ServicesSection() {
       const rightCards = gsap.utils.toArray<HTMLElement>('.svc-card-desktop-right')
       const scrollLength = window.innerHeight * 4.5
 
-      // 1. Pin Section & Scrub Progress
+      // 1. Pin Section & Scrub Progress (Priority 2: Evaluated first in DOM flow)
       ScrollTrigger.create({
         trigger: section,
         start: 'top top',
         end: `+=${scrollLength}`,
         pin: true,
         anticipatePin: 1,
+        refreshPriority: 2,
         onUpdate: (self) => {
           setScrollProgress(self.progress)
         },
@@ -205,6 +208,7 @@ export default function ServicesSection() {
             start: 'top top',
             end: `+=${scrollLength}`,
             scrub: 1.2,
+            refreshPriority: 2,
           },
         }
       )
@@ -221,6 +225,7 @@ export default function ServicesSection() {
             start: 'top top',
             end: `+=${scrollLength}`,
             scrub: 1.2,
+            refreshPriority: 2,
           },
         }
       )
@@ -394,8 +399,10 @@ export default function ServicesSection() {
       })
     })
 
-    return () => mm.revert()
-  }, [activePersona])
+      return () => mm.revert()
+    },
+    { scope: sectionRef, dependencies: [activePersona] }
+  )
 
   return (
     <section

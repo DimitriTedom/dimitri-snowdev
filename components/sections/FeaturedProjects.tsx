@@ -59,7 +59,7 @@ export default function FeaturedProjects() {
 
         const getScrollDistance = () => track.scrollWidth - window.innerWidth
 
-        // 1. Master horizontal scroll tween
+        // 1. Master horizontal scroll tween (Priority 1: Evaluated after Services pin spacer is measured)
         const horizontalTween = gsap.to(track, {
           x: () => -getScrollDistance(),
           ease: 'none',
@@ -69,6 +69,7 @@ export default function FeaturedProjects() {
             end: () => `+=${Math.max(getScrollDistance(), window.innerHeight * 2.8)}`,
             pin: true,
             scrub: 1,
+            refreshPriority: 1,
             invalidateOnRefresh: true,
           },
         })
@@ -96,6 +97,12 @@ export default function FeaturedProjects() {
               },
             }
           )
+        })
+
+        // Ensure all ScrollTriggers recalculate positions in exact DOM order
+        requestAnimationFrame(() => {
+          ScrollTrigger.sort()
+          ScrollTrigger.refresh()
         })
       })
 
