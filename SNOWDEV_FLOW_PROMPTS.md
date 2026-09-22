@@ -1,147 +1,142 @@
-# SnowDev — Flow & Image Generation Prompts
-> All prompts for **Google Flow (Veo3.1 Fast)** and **Grok (image generation)**
-> Save outputs to the paths listed under each prompt.
+# SnowDev — Flow & Keyframe Generation Prompts
+
+> Production pipeline using **Keyframe-to-Video Interpolation**:
+> 1. Generate **Start Keyframe** + **End Keyframe** images (via Grok or Flow Image).
+> 2. Feed both into **Google Flow (Veo3.1 Fast)** as Start/End images to ensure 100% deterministic control over the crystal geometry, the "SV" logomark, and the motion trajectory.
+> 3. Visuals are timed and choreographed to align with our future **Thunder & Electrical Sound Design** loop.
 
 ---
 
-## 🎬 VIDEO 1 — Main Services Section Animation
-### "The Frozen Code Crystal — SV Logomark"
-**Tool:** Google Flow (Veo3.1 Fast)
-**Settings:** 6 seconds · 4K · No dialogue · Cinematic
-**Output path:** `dimitri-snowdev/public/videos/sv-crystal-raw.mp4`
+## 🖼️ KEYFRAME 1 (START IMAGE) — Top Entry
+### "The Raw Obsidian Shard Descending"
+- **Tool:** Grok (Image Generation) or Flow Image
+- **Aspect Ratio:** 16:9 (or 4:3)
+- **Output path:** `dimitri-snowdev/public/keyframes/sv-crystal-start.png`
 
 ```
-Cinematic macro shot. A translucent, dark angular crystal shard floats in
-a void of deep black space. The camera slowly zooms out as the crystal
-descends from the top of frame, scaling from near-invisible to full size.
-The crystal surface is rough-cut, like a raw gemstone, with flat geometric
-facets. Glowing violet-purple circuit traces, binary fragments, and thin
-code characters crawl and freeze across the crystal faces like frost
-forming on glass — they crystallize progressively from edges toward center.
-At the crystal core, the traces converge into a glowing "SV" letterform
-made of light — it pulses once with deep violet-purple radiance
-(#5e17eb color). The crystal catches internal light, scattering cool
-blue-violet caustic rays into the surrounding darkness. The overall mood
-is cold, precise, architectural. No humans. No voiceover. Dark atmospheric
-ambience only. Duration: 6 seconds. Style: cinematic high-contrast,
-minimal, tech luxury. Slow motion, no camera shake, locked-off shot.
-```
-
-### After generating — extract frames:
-```bash
-ffmpeg -i sv-crystal-raw.mp4 -vf "fps=30,scale=1366:-1" -q:v 3 dimitri-snowdev/public/frames/sv/%04d.webp
-```
-→ This creates ~180 WebP frames in `/public/frames/sv/` (0001.webp → 0180.webp)
-
----
-
-## 🎬 VIDEO 2 — Fallback / Loop (optional)
-### "SV Crystal Ambient Idle Loop"
-**Tool:** Google Flow (Veo3.1 Fast)
-**Settings:** 4 seconds · 4K · Loop-able · No dialogue
-**Output path:** `dimitri-snowdev/public/videos/sv-crystal-loop.mp4`
-
-```
-Seamless looping ambient shot. A dark angular crystal shard with a
-violet-glowing "SV" letterform etched at its core. The crystal gently
-rotates 10 degrees left-right in a slow pendulum motion. Violet caustic
-light pulses softly from within. Circuit trace details on the facets
-shimmer faintly. Background: pure black void with subtle blue-violet
-atmospheric mist. No motion change. Perfectly loop-able. Style: cinematic
-dark luxury, minimal, 4K, slow motion.
+Cinematic concept art shot. A raw, dark angular obsidian crystal shard entering
+from the very top of the frame into an empty, pitch-black void (#060618). The
+crystal is positioned high, near the top edge, small in scale, partially cut off
+by the upper frame. Surface is dark smoked quartz and raw glass facets with sharp
+geometric edges. Subtle faint violet edge rim lighting (#5e17eb) catching the
+top facets. Faint cold blue atmospheric haze and subtle floating microscopic
+dust motes in the darkness. No text, no symbols, clean unetched surface. Dark tech
+minimal luxury aesthetic, 8k resolution, octane render style, ultra-high detail.
 ```
 
 ---
 
-## 🖼️ ICON A — Full Stack Web Engineering
-### "Architecture Topology Icon"
-**Tool:** Grok Image Generation (or Flow image)
-**Output path:** `dimitri-snowdev/public/icons/icon-fullstack-raw.png`
-**After:** Convert to SVG via Vectorizer.ai → save as `icon-fullstack.svg`
+## 🖼️ KEYFRAME 2 (END IMAGE) — Final Crystallized Mark
+### "The Crystallized Superimposed 'SV' Monogram Core"
+- **Tool:** Grok (Image Generation), Midjourney, or Flow Image
+- **Reference Image (Crucial):** Attach `dimitri-snowdev/public/brand/snowdev-logo-transparent.png` as an image reference / prompt input!
+- **Aspect Ratio:** 16:9 (or 4:3)
+- **Output path:** `dimitri-snowdev/public/keyframes/sv-crystal-end.png`
 
+> 💡 **Why previous renders failed:** Text-only AI models parse "SV" as two separate letters side by side ("S" then "V"). The true SnowDev brand is a **superimposed interlocking monogram** — the "V" forms a sharp downward chevron, and the "S" is woven directly through it, looping around its diagonals into a single intertwined cipher.
+
+```
+Cinematic macro shot. A large, perfectly centered angular dark crystal shard
+floating stationary in deep black space (#060618). Flat geometric facets catch
+internal light. Across the glassy surface, frozen glowing violet circuit traces
+and binary code glyphs are permanently etched like electric frost.
+
+In the exact center core of the crystal, a single superimposed interlocking
+monogram cipher of the letters "S" and "V" is deeply engraved (matching reference
+logo). The letter "V" is a sharp symmetrical downward chevron, and the letter "S"
+is intertwined and woven directly through the "V", passing through its diagonal
+arms and looping around the bottom to form a unified, single interlocking emblem.
+NOT two letters side-by-side. One singular intertwined "SV" monogram emblem
+glowing intensely with deep violet-purple neon light (#5e17eb, #ae6bf6).
+
+Volumetric caustic rays and bright violet prism lens flares scatter outward from
+the intertwined emblem into the surrounding darkness. Precise architectural luxury tech,
+high contrast, clean geometric curves, octane render, 8k resolution.
+```
+
+---
+
+## 🎬 VIDEO 1 — Flow Interpolation (Start Image → End Image)
+### "The Frozen Code Crystal — Descent & Thunder Crystallization"
+- **Tool:** Google Flow (Veo3.1 Fast)
+- **Mode:** Image-to-Video with **Start Keyframe** (`sv-crystal-start.png`) + **End Keyframe** (`sv-crystal-end.png`)
+- **Duration:** 6 seconds · 4K · High Motion Fidelity
+- **Output path:** `dimitri-snowdev/public/videos/sv-crystal-raw.mp4`
+
+```
+Smooth cinematic macro transition. Using the start image (crystal entering from
+top) and end image (crystal centered with the glowing superimposed "SV" interlocking emblem).
+
+The dark crystal shard descends smoothly from top of frame toward the exact center,
+scaling from small to full hero size. As it reaches center, electric violet
+frost and glowing circuit lines rapidly crawl across the facets like lightning
+crackling under ice. At the final beat, the internal core ignites into the
+superimposed interlocking "SV" emblem, pulsing once with an explosive emission of
+violet caustic light and volumetric rays that ripple across the surrounding void.
+
+Camera is locked-off with smooth slow zoom-out. Motion is heavy, steady, and
+deliberate. Cinematic tech luxury, high contrast, zero camera shake.
+```
+
+---
+
+## ⚡ Future Sound Design Blueprint (Choreographed to Visuals)
+
+> While audio implementation will follow later, the visual animation above is strictly choreographed to align with this 3-phase soundscape (matching Trionn's signature thunder/ambient energy):
+
+| Timeline | Visual Action | Sound Cue to Match |
+|---|---|---|
+| **0.0s – 2.0s** | Crystal enters from top void | **Deep atmospheric drone**: Sub-bass hum (40Hz), low rumbling wind void |
+| **2.0s – 4.5s** | Code traces crawl across facets | **Electrical frost sizzle**: Crisp ionized static, ice crackling, high-frequency glitch clicks |
+| **4.5s – 6.0s** | "SV" core locks & pulses caustic rays | **Seismic Thunder Strike**: Low-end thunder boom with rolling sub-bass impact and long reverb decay |
+
+---
+
+## 🖼️ SVG ACCENT ICONS (Grok Prompts)
+
+### Icon A — Full Stack Web Engineering ("Architecture Topology")
+- **Tool:** Grok Image → Vectorizer.ai → `/public/icons/icon-fullstack.svg`
 ```
 Minimal geometric line-art icon. A square grid of nodes interconnected
 by thin lines forming a web architecture topology diagram. 3x3 grid
 of dots, each connected by straight lines to neighbors. Clean vector
 line art. Pure white strokes on pure black background. No fills.
 Stroke weight: 2px. Sharp, precise, technical. Isolated on solid black.
-No gradients. No shadows. Pure geometric minimal icon style.
 Render at 512x512px.
 ```
 
----
-
-## 🖼️ ICON B — AI Engineering & Automation
-### "Neural Network Icon"
-**Tool:** Grok Image Generation (or Flow image)
-**Output path:** `dimitri-snowdev/public/icons/icon-ai-raw.png`
-**After:** Convert to SVG via Vectorizer.ai → save as `icon-ai.svg`
-
+### Icon B — AI Engineering & Automation ("Neural Network")
+- **Tool:** Grok Image → Vectorizer.ai → `/public/icons/icon-ai.svg`
 ```
 Minimal geometric line-art icon. A feedforward neural network diagram
 with 3 vertical layers: 4 input nodes (left), 3 hidden nodes (center),
 2 output nodes (right). All nodes are small open circles. All inter-layer
 connections are thin straight lines. Pure white lines and circles on pure
-black background. No fills. Stroke weight: 2px. Clean, technical,
-mathematical. Isolated on solid black. No gradients. No text.
+black background. No fills. Stroke weight: 2px. Clean, technical.
+Render at 512x512px.
+```
+
+### Icon C — Cloud Architecture & DevOps ("Infrastructure Topology")
+- **Tool:** Grok Image → Vectorizer.ai → `/public/icons/icon-cloud.svg`
+```
+Minimal geometric line-art icon. Three concentric hexagons of increasing
+size, centered. From the center hexagon, 6 thin radial lines extend
+outward to the corners of the largest hexagon, like spokes of a wheel.
+Clean vector line art. Pure white strokes on pure black background.
+No fills. Stroke weight: 2px. Precise, architectural.
 Render at 512x512px.
 ```
 
 ---
 
-## 🖼️ ICON C — Cloud Architecture & DevOps
-### "Infrastructure Topology Icon"
-**Tool:** Grok Image Generation (or Flow image)
-**Output path:** `dimitri-snowdev/public/icons/icon-cloud-raw.png`
-**After:** Convert to SVG via Vectorizer.ai → save as `icon-cloud.svg`
-
-```
-Minimal geometric line-art icon. Three concentric hexagons of increasing
-size, centered. From the center hexagon, 6 thin radial lines extend
-outward to the corners of the largest hexagon, like spokes of a wheel
-within the hexagonal structure. Clean vector line art. Pure white strokes
-on pure black background. No fills. Stroke weight: 2px. Precise,
-architectural, infrastructure-topology feel. Isolated on solid black.
-No gradients. No text. Render at 512x512px.
-```
-
----
-
-## 📋 Asset Checklist
-
-| Asset | Tool | Status | Output Path |
-|---|---|---|---|
-| SV Crystal main video | Flow Veo3.1 Fast | ⬜ Pending | `/public/videos/sv-crystal-raw.mp4` |
-| SV Crystal loop video | Flow Veo3.1 Fast | ⬜ Optional | `/public/videos/sv-crystal-loop.mp4` |
-| Frame extraction | ffmpeg terminal | ⬜ After video | `/public/frames/sv/*.webp` |
-| Icon A — Fullstack | Grok Image | ⬜ Pending | `/public/icons/icon-fullstack.svg` |
-| Icon B — AI | Grok Image | ⬜ Pending | `/public/icons/icon-ai.svg` |
-| Icon C — Cloud | Grok Image | ⬜ Pending | `/public/icons/icon-cloud.svg` |
-
----
-
-## 🛠️ Frame Extraction Commands (run after Flow video is ready)
+## 🛠️ Frame Extraction Commands (Run after Flow video is exported)
 
 ```bash
-# Navigate to project root
 cd "d:/SnowDev/Documents/dimitri-snowdev-v2/dimitri-snowdev"
 
-# Extract 30fps WebP frames from the main video
+# Extract 30fps WebP frames
 ffmpeg -i public/videos/sv-crystal-raw.mp4 -vf "fps=30,scale=1366:-1" -q:v 3 public/frames/sv/%04d.webp
 
-# Check frame count
+# Verify ~180 frames extracted
 ls public/frames/sv/ | Measure-Object | Select-Object Count
-# Expected: ~180 frames for a 6-second 30fps video
 ```
-
----
-
-## 🎨 Brand Colors Reference (for Flow prompts)
-
-| Token | Hex | Usage |
-|---|---|---|
-| Accent Primary | `#5e17eb` | SV glow, circuit traces, icon tint |
-| Accent Light | `#ae6bf6` | Caustic light scatter, hover states |
-| Accent Secondary | `#5930d4` | Deep violet shadows |
-| Background | `#060618` | Video background, void |
-| Background Base | `#090c1a` | Section backgrounds |

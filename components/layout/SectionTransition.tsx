@@ -104,20 +104,20 @@ export default function SectionTransition({ children, type, className = '' }: Se
     return () => mm.revert()
   }, [type])
 
-  // Horizontal split: two panels (absolute overlay) + content underneath
+  // Horizontal split: two panels (absolute overlay on desktop) + content underneath
   if (type === 'horizontal-split') {
     return (
       <div ref={wrapperRef} className={`relative overflow-hidden ${className}`}>
-        {/* Left curtain panel */}
+        {/* Left curtain panel — desktop only */}
         <div
           ref={panelLeftRef}
-          className="absolute top-0 left-0 w-1/2 h-full z-20 pointer-events-none"
+          className="hidden md:block absolute top-0 left-0 w-1/2 h-full z-20 pointer-events-none"
           style={{ background: '#060618' }}
         />
-        {/* Right curtain panel */}
+        {/* Right curtain panel — desktop only */}
         <div
           ref={panelRightRef}
-          className="absolute top-0 right-0 w-1/2 h-full z-20 pointer-events-none"
+          className="hidden md:block absolute top-0 right-0 w-1/2 h-full z-20 pointer-events-none"
           style={{ background: '#060618' }}
         />
         {children}
@@ -125,13 +125,13 @@ export default function SectionTransition({ children, type, className = '' }: Se
     )
   }
 
-  // Curtain drop: single full-width panel sweeps down
+  // Curtain drop: single full-width panel sweeps down (desktop only)
   if (type === 'curtain-drop') {
     return (
       <div ref={wrapperRef} className={`relative overflow-hidden ${className}`}>
         <div
           ref={panelLeftRef}
-          className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none"
+          className="hidden md:block absolute top-0 left-0 w-full h-full z-20 pointer-events-none"
           style={{ background: '#060618' }}
         />
         {children}

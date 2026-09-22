@@ -162,7 +162,15 @@ export default function HeroSection() {
         <div
           className="absolute bottom-0 left-0 right-0 h-44 sm:h-64 pointer-events-none z-[3]"
           style={{
-            background: 'linear-gradient(to top, #000000 0%, rgba(0, 0, 0, 0.85) 40%, rgba(0, 0, 0, 0.3) 75%, transparent 100%)'
+            background: 'linear-gradient(to top, #060618 0%, rgba(6, 6, 24, 0.85) 40%, rgba(6, 6, 24, 0.3) 75%, transparent 100%)'
+          }}
+        />
+
+        {/* 21st.dev Lamp-inspired upward ambient glow at bottom threshold */}
+        <div
+          className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[650px] max-w-[95vw] h-40 blur-2xl opacity-30 z-[3]"
+          style={{
+            background: `radial-gradient(ellipse 60% 100% at 50% 100%, ${highlightColor} 0%, ${themeAccent} 45%, transparent 100%)`,
           }}
         />
 

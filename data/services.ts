@@ -4,12 +4,11 @@ export interface ServiceItem {
   tagline: string
   shortDescription: string
   description: string
-  icon: 'code' | 'bot' | 'cloud'
+  icon: 'code' | 'bot' | 'cloud' | 'layers' | 'palette'
   features: string[]
   deliverables: string[]
   personas: string[]
 }
-
 
 export const SERVICES: ServiceItem[] = [
   {
@@ -80,5 +79,51 @@ export const SERVICES: ServiceItem[] = [
       'Real-time monitoring dashboard & alerting configuration',
     ],
     personas: ['cloud-architect', 'fullstack', 'product-builder'],
+  },
+  {
+    id: 'mvp-engineering',
+    title: 'MVP & Product Engineering',
+    tagline: 'Rapid Prototyping & High-Velocity Execution',
+    shortDescription:
+      'Investor-ready MVPs built to validate hypotheses, onboard users, and scale seamlessly.',
+    description:
+      'From product discovery to functional SaaS deployment in record time. Clean modular architectures designed to accommodate rapid user feedback and future feature scaling without technical debt.',
+    icon: 'layers',
+    features: [
+      'Rapid prototype-to-production sprint cycles',
+      'Stripe payments, subscriptions & billing integrations',
+      'Multi-tenant database modeling & authentication',
+      'Product telemetry, posthog analytics & funnel tracking',
+    ],
+    deliverables: [
+      'Full working MVP ready for public launch',
+      'Interactive Figma prototypes & user journeys',
+      'Self-healing automated deployment pipeline',
+      'Product roadmap & technical scaling strategy',
+    ],
+    personas: ['product-builder', 'entrepreneur', 'fullstack'],
+  },
+  {
+    id: 'creative-engineering',
+    title: 'Creative UI/UX & Design Systems',
+    tagline: 'Fluid Micro-Interactions & Modern Aesthetics',
+    shortDescription:
+      'High-craft design systems, dark-mode glassmorphism, and 60fps animations.',
+    description:
+      'Architectural typography, bespoke component libraries, and interactive 3D/canvas storytelling that captivate users and establish undeniable digital brand authority.',
+    icon: 'palette',
+    features: [
+      '60fps GSAP, Framer Motion & Three.js canvas animations',
+      'Tailored dark-mode glassmorphism & typography hierarchies',
+      'Atomic design systems with Shadcn & Tailwind CSS',
+      'Micro-interactions that elevate brand perception',
+    ],
+    deliverables: [
+      'Comprehensive design token library & UI component kit',
+      'Fluid interactive prototypes with zero frame drop',
+      'Accessibility (a11y) & cross-browser audit',
+      'Design handoff documentation & component showcase',
+    ],
+    personas: ['product-builder', 'fullstack', 'entrepreneur'],
   },
 ]

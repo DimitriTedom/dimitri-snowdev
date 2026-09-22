@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Horizontal grid lines -->
+  <line x1="56" y1="56" x2="456" y2="56" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+  <line x1="56" y1="189" x2="456" y2="189" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+  <line x1="56" y1="323" x2="456" y2="323" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+  <line x1="56" y1="456" x2="456" y2="456" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Vertical grid lines -->
+  <line x1="56" y1="56" x2="56" y2="456" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+  <line x1="189" y1="56" x2="189" y2="456" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+  <line x1="323" y1="56" x2="323" y2="456" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+  <line x1="456" y1="56" x2="456" y2="456" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- 16 circular nodes (filled) -->
+  <circle cx="56" cy="56" r="22" fill="currentColor"/>
+  <circle cx="189" cy="56" r="22" fill="currentColor"/>
+  <circle cx="323" cy="56" r="22" fill="currentColor"/>
+  <circle cx="456" cy="56" r="22" fill="currentColor"/>
+
+  <circle cx="56" cy="189" r="22" fill="currentColor"/>
+  <circle cx="189" cy="189" r="22" fill="currentColor"/>
+  <circle cx="323" cy="189" r="22" fill="currentColor"/>
+  <circle cx="456" cy="189" r="22" fill="currentColor"/>
+
+  <circle cx="56" cy="323" r="22" fill="currentColor"/>
+  <circle cx="189" cy="323" r="22" fill="currentColor"/>
+  <circle cx="323" cy="323" r="22" fill="currentColor"/>
+  <circle cx="456" cy="323" r="22" fill="currentColor"/>
+
+  <circle cx="56" cy="456" r="22" fill="currentColor"/>
+  <circle cx="189" cy="456" r="22" fill="currentColor"/>
+  <circle cx="323" cy="456" r="22" fill="currentColor"/>
+  <circle cx="456" cy="456" r="22" fill="currentColor"/>
+</svg>

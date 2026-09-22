@@ -55,7 +55,7 @@ export default function FeaturedProjects() {
   if (featuredProjects.length === 0) return null
 
   return (
-    <section id="projects" className="relative w-full py-24 md:py-32 px-6 overflow-hidden">
+    <section id="projects" className="relative w-full py-16 md:py-32 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         {/* Section header — Aeruk inspired */}
         <motion.div
