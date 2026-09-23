@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-import { ArrowUpRight, X, ChevronRight, Layers, Cpu, Code2, Bot, Cloud, Palette } from 'lucide-react'
+import { ArrowUpRight, X, ChevronRight } from 'lucide-react'
 import {
   motion,
   useMotionTemplate,
@@ -429,14 +429,12 @@ function ServiceCard({
   index,
   service,
   accentLight,
-  accent,
   isMobile = false,
   onQuickView,
 }: {
   index: number
   service: ServiceItem
   accentLight: string
-  accent: string
   isMobile?: boolean
   onQuickView: (svc: ServiceItem) => void
 }) {
@@ -794,7 +792,6 @@ export default function ServicesSection() {
                   index={index * 2}
                   service={svc}
                   accentLight={accentLight}
-                  accent={accent}
                   onQuickView={setSelectedService}
                 />
               </div>
@@ -816,7 +813,6 @@ export default function ServicesSection() {
                   index={index * 2 + 1}
                   service={svc}
                   accentLight={accentLight}
-                  accent={accent}
                   onQuickView={setSelectedService}
                 />
               </div>
@@ -840,8 +836,7 @@ export default function ServicesSection() {
                     index={index}
                     service={svc}
                     accentLight={accentLight}
-                    accent={accent}
-                    isMobile
+                      isMobile
                     onQuickView={setSelectedService}
                   />
                 </div>
