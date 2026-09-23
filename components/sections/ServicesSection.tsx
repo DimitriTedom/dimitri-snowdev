@@ -550,6 +550,8 @@ export default function ServicesSection() {
         const zActive = 40     // Pushed forward when active
         const zCorner = -60    // Pushed back when at corners
 
+        // Master scrubbed timeline for the pinned section
+        // Paced across 100 units so cards progressively glide over generous scroll distance
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
@@ -557,52 +559,98 @@ export default function ServicesSection() {
             end: `+=${scrollLength}`,
             pin: true,
             anticipatePin: 1,
-            scrub: 1.2,
+            scrub: 1,
             refreshPriority: 2,
             onUpdate: (self) => {
               setScrollProgress(self.progress)
-              // Drive active pair from scroll progress
               const p = self.progress
-              if (p < 0.42) setActivePair(0)
-              else if (p < 0.75) setActivePair(1)
+              if (p < 0.38) setActivePair(0)
+              else if (p < 0.72) setActivePair(1)
               else setActivePair(2)
             },
           },
         })
 
-        // INITIAL STATE: Pair 0 center (full focus, z=40), Pair 1 bottom corners (blur, z=-60), Pair 2 hidden
-        gsap.set(leftCards[0], { x: 0, y: 0, z: zActive, rotation: 0, autoAlpha: 1, filter: 'blur(0px)', scale: 1 })
-        gsap.set(rightCards[0], { x: 0, y: 0, z: zActive, rotation: 0, autoAlpha: 1, filter: 'blur(0px)', scale: 1 })
+        // ─────────────────────────────────────────────────────────────
+        // 1. INITIAL STATE (Scroll = 0):
+        // Pair 0 is in the middle (full focus, sharp, z=40)
+        // Pair 1 is waiting at bottom corners (blur 10px, 35% opacity, z=-60)
+        // Pair 2 is deep below (blur 20px, 0% opacity, z=-80)
+        // ─────────────────────────────────────────────────────────────
+        gsap.set(leftCards[0], { x: 0, y: 0, z: zActive, rotation: 0, opacity: 1, filter: 'blur(0px)', scale: 1 })
+        gsap.set(rightCards[0], { x: 0, y: 0, z: zActive, rotation: 0, opacity: 1, filter: 'blur(0px)', scale: 1 })
 
         if (leftCards[1] && rightCards[1]) {
-          gsap.set(leftCards[1], { x: -xDist, y: yDist, z: zCorner, rotation: 5, autoAlpha: 0.35, filter: 'blur(10px)', scale: 0.92 })
-          gsap.set(rightCards[1], { x: xDist, y: yDist, z: zCorner, rotation: -5, autoAlpha: 0.35, filter: 'blur(10px)', scale: 0.92 })
+          gsap.set(leftCards[1], { x: -xDist, y: yDist, z: zCorner, rotation: 5, opacity: 0.35, filter: 'blur(10px)', scale: 0.92 })
+          gsap.set(rightCards[1], { x: xDist, y: yDist, z: zCorner, rotation: -5, opacity: 0.35, filter: 'blur(10px)', scale: 0.92 })
         }
         if (leftCards[2] && rightCards[2]) {
-          gsap.set(leftCards[2], { x: -xDist, y: yDist + 80, z: zCorner - 20, rotation: 5, autoAlpha: 0, filter: 'blur(16px)', scale: 0.88 })
-          gsap.set(rightCards[2], { x: xDist, y: yDist + 80, z: zCorner - 20, rotation: -5, autoAlpha: 0, filter: 'blur(16px)', scale: 0.88 })
+          gsap.set(leftCards[2], { x: -xDist, y: yDist + 120, z: zCorner - 20, rotation: 6, opacity: 0, filter: 'blur(18px)', scale: 0.85 })
+          gsap.set(rightCards[2], { x: xDist, y: yDist + 120, z: zCorner - 20, rotation: -6, opacity: 0, filter: 'blur(18px)', scale: 0.85 })
         }
 
-        // FIRST TRANSITION (12→42): Pair 0 exits top corners (z back), Pair 1 glides to center (z forward)
-        tl.to(leftCards[0], { x: -xDist, y: -yDist, z: zCorner, rotation: -5, autoAlpha: 0, filter: 'blur(16px)', scale: 0.88, ease: 'power1.in' }, 12)
-        tl.to(rightCards[0], { x: xDist, y: -yDist, z: zCorner, rotation: 5, autoAlpha: 0, filter: 'blur(16px)', scale: 0.88, ease: 'power1.in' }, 12)
+        // ─────────────────────────────────────────────────────────────
+        // 2. FIRST PROGRESSIVE TRANSITION (Time: 8 -> 46, duration: 38)
+        // Pair 0 glides from center UP to top corners (dissolving progressively to blur + opacity 0)
+        // Pair 1 glides from bottom corners INTO center (progressive focus: blur 10px -> 0px, opacity 0.35 -> 1)
+        // Pair 2 enters bottom corners from below (opacity 0 -> 0.35, blur 18px -> 10px)
+        // ─────────────────────────────────────────────────────────────
+        tl.to(
+          leftCards[0],
+          { x: -xDist, y: -yDist, z: zCorner, rotation: -5, opacity: 0, filter: 'blur(16px)', scale: 0.88, ease: 'power1.inOut', duration: 38 },
+          8
+        )
+        tl.to(
+          rightCards[0],
+          { x: xDist, y: -yDist, z: zCorner, rotation: 5, opacity: 0, filter: 'blur(16px)', scale: 0.88, ease: 'power1.inOut', duration: 38 },
+          8
+        )
 
         if (leftCards[1] && rightCards[1]) {
-          tl.to([leftCards[1], rightCards[1]], { x: 0, y: 0, z: zActive, rotation: 0, autoAlpha: 1, filter: 'blur(0px)', scale: 1, ease: 'power1.out' }, 12)
+          tl.to(
+            [leftCards[1], rightCards[1]],
+            { x: 0, y: 0, z: zActive, rotation: 0, opacity: 1, filter: 'blur(0px)', scale: 1, ease: 'power1.inOut', duration: 38 },
+            8
+          )
         }
 
         if (leftCards[2] && rightCards[2]) {
-          tl.to(leftCards[2], { x: -xDist, y: yDist, z: zCorner, rotation: 5, autoAlpha: 0.35, filter: 'blur(10px)', scale: 0.92, ease: 'power1.out' }, 20)
-          tl.to(rightCards[2], { x: xDist, y: yDist, z: zCorner, rotation: -5, autoAlpha: 0.35, filter: 'blur(10px)', scale: 0.92, ease: 'power1.out' }, 20)
+          tl.to(
+            leftCards[2],
+            { x: -xDist, y: yDist, z: zCorner, rotation: 5, opacity: 0.35, filter: 'blur(10px)', scale: 0.92, ease: 'power1.inOut', duration: 30 },
+            16
+          )
+          tl.to(
+            rightCards[2],
+            { x: xDist, y: yDist, z: zCorner, rotation: -5, opacity: 0.35, filter: 'blur(10px)', scale: 0.92, ease: 'power1.inOut', duration: 30 },
+            16
+          )
         }
 
-        // SECOND TRANSITION (58→88): Pair 1 exits top corners, Pair 2 glides to center
+        // ─────────────────────────────────────────────────────────────
+        // 3. SECOND PROGRESSIVE TRANSITION (Time: 56 -> 94, duration: 38)
+        // Pair 1 glides from center UP to top corners (dissolving progressively to blur + opacity 0)
+        // Pair 2 glides from bottom corners INTO center (progressive focus: blur 10px -> 0px, opacity 0.35 -> 1)
+        // ─────────────────────────────────────────────────────────────
         if (leftCards[1] && rightCards[1]) {
-          tl.to(leftCards[1], { x: -xDist, y: -yDist, z: zCorner, rotation: -5, autoAlpha: 0, filter: 'blur(16px)', scale: 0.88, ease: 'power1.in' }, 58)
-          tl.to(rightCards[1], { x: xDist, y: -yDist, z: zCorner, rotation: 5, autoAlpha: 0, filter: 'blur(16px)', scale: 0.88, ease: 'power1.in' }, 58)
+          tl.to(
+            leftCards[1],
+            { x: -xDist, y: -yDist, z: zCorner, rotation: -5, opacity: 0, filter: 'blur(16px)', scale: 0.88, ease: 'power1.inOut', duration: 38 },
+            56
+          )
+          tl.to(
+            rightCards[1],
+            { x: xDist, y: -yDist, z: zCorner, rotation: 5, opacity: 0, filter: 'blur(16px)', scale: 0.88, ease: 'power1.inOut', duration: 38 },
+            56
+          )
         }
+
         if (leftCards[2] && rightCards[2]) {
-          tl.to([leftCards[2], rightCards[2]], { x: 0, y: 0, z: zActive, rotation: 0, autoAlpha: 1, filter: 'blur(0px)', scale: 1, ease: 'power1.out' }, 58)
+          tl.to(
+            [leftCards[2], rightCards[2]],
+            { x: 0, y: 0, z: zActive, rotation: 0, opacity: 1, filter: 'blur(0px)', scale: 1, ease: 'power1.inOut', duration: 38 },
+            56
+          )
         }
       })
 
