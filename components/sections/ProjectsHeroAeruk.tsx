@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { motion } from 'framer-motion'
 import { usePersona } from '@/hooks/usePersona'
-import EnergyBeam from '@/components/ui/energy-beam'
+import ArtifactCore3D from '@/components/3d/ArtifactCore3D'
 
 export default function ProjectsHeroAeruk() {
   const { personaConfig } = usePersona()
@@ -11,7 +11,7 @@ export default function ProjectsHeroAeruk() {
   const themeAccentLight = personaConfig?.theme?.accentLight || '#ae6bf6'
 
   return (
-    <div className="relative w-full overflow-hidden pt-12 pb-8 flex flex-col items-center min-h-[580px] sm:min-h-[640px]">
+    <section className="relative w-full min-h-screen -mt-28 flex flex-col items-center justify-center text-center px-6 z-[2] overflow-hidden pt-28 pb-12">
       {/* ─── 3D Logomark Glass Videos — Exact Aeruk Positions & Sources from Home Hero ─── */}
       
       {/* Crystal 1 — Bottom-Left (Aeruk exact position & rotation) */}
@@ -45,7 +45,7 @@ export default function ProjectsHeroAeruk() {
       </div>
 
       {/* ─── Hero Content Stack ─── */}
-      <div className="relative z-10 container mx-auto max-w-[1400px] px-4 flex flex-col items-center text-center">
+      <div className="relative z-10 container mx-auto max-w-[1200px] px-4 flex flex-col items-center text-center">
         {/* Breadcrumb: ACCUEIL > PROJETS */}
         <motion.div
           initial={{ opacity: 0, y: -12 }}
@@ -63,12 +63,12 @@ export default function ProjectsHeroAeruk() {
           </span>
         </motion.div>
 
-        {/* Giant Architectural Display Title (Space Grotesk / Roc Grotesk Wide) */}
+        {/* Proportional Display Title */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-extrabold text-5xl sm:text-7xl md:text-8xl lg:text-9xl uppercase tracking-tight text-white mb-2 leading-[0.95]"
+          className="font-display font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-8xl uppercase tracking-tight text-white mb-2 leading-[0.95]"
         >
           FEATURED{' '}
           <span
@@ -86,29 +86,29 @@ export default function ProjectsHeroAeruk() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
-          className="text-text-secondary text-sm sm:text-base font-light font-sans max-w-xl text-center leading-relaxed opacity-80 mt-1"
+          className="text-text-secondary text-xs sm:text-sm md:text-base font-light font-sans max-w-xl text-center leading-relaxed opacity-80 mt-1"
         >
           High-performance architectures, full-stack systems, and AI workflows engineered for the{' '}
           <span className="text-white font-medium">{personaConfig.label}</span> persona.
         </motion.p>
 
-        {/* ─── 21st.dev Energy Beam (Replacing Category Menu) ─── */}
+        {/* ─── 3D Artifact Core (Tripo3D Model / Quantum Singularity) ─── */}
         <motion.div
           id="singularity-origin"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.1, delay: 0.3, ease: 'easeOut' }}
-          className="relative w-full max-w-4xl h-[380px] sm:h-[440px] md:h-[500px] -mt-2 sm:-mt-4 flex flex-col items-center justify-center rounded-2xl overflow-hidden border border-white/10 bg-black/60 backdrop-blur-sm shadow-[0_0_50px_rgba(0,0,0,0.8)]"
+          className="relative w-full max-w-2xl h-[320px] sm:h-[380px] md:h-[420px] -mt-2 sm:-mt-4 flex flex-col items-center justify-center overflow-visible"
         >
-          <EnergyBeam
+          <ArtifactCore3D
             className="w-full h-full"
             accentColor={themeAccent}
           />
 
-          {/* Energy Beam Core Emission Node Label */}
-          <div className="absolute bottom-4 flex flex-col items-center gap-1.5 pointer-events-none z-20">
+          {/* Energy Horizon Emission Node Label */}
+          <div className="absolute bottom-2 flex flex-col items-center gap-1.5 pointer-events-none z-20">
             <span className="text-[9px] font-mono uppercase tracking-[0.3em] text-white/50">
-              [ Energy Beam Core — Scroll To Explore ]
+              [ 3D Artifact Core — Scroll To Explore ]
             </span>
             <div
               className="w-2 h-2 rounded-full animate-ping"
@@ -117,6 +117,6 @@ export default function ProjectsHeroAeruk() {
           </div>
         </motion.div>
       </div>
-    </div>
+    </section>
   )
 }

@@ -15,7 +15,6 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
   const { activePersona, personaConfig } = usePersona()
-  const themeAccent = personaConfig?.theme?.accent || '#5e17eb'
   const themeAccentLight = personaConfig?.theme?.accentLight || '#ae6bf6'
 
   // Format index as 2-digit zero-padded string: 01, 02, etc.
