@@ -4,7 +4,7 @@ export interface ServiceItem {
   tagline: string
   shortDescription: string
   description: string
-  icon: 'code' | 'bot' | 'cloud' | 'layers' | 'palette'
+  icon: 'code' | 'bot' | 'cloud' | 'layers' | 'palette' | 'cpu'
   features: string[]
   deliverables: string[]
   personas: string[]
@@ -125,5 +125,28 @@ export const SERVICES: ServiceItem[] = [
       'Design handoff documentation & component showcase',
     ],
     personas: ['product-builder', 'fullstack', 'entrepreneur'],
+  },
+  {
+    id: 'systems-architecture',
+    title: 'Autonomous Systems & Architecture',
+    tagline: 'Agentic Swarms & Microservice Topology',
+    shortDescription:
+      'Event-driven architectures, self-healing microservices, and multi-agent coordination.',
+    description:
+      'Architecting decentralized, event-driven backends and multi-agent coordination frameworks. Built with high-throughput message brokers, self-healing state machines, and resilient failover topologies.',
+    icon: 'cpu',
+    features: [
+      'Multi-agent swarm orchestration & state persistence',
+      'Event-driven microservices & WebSocket messaging',
+      'High-throughput distributed caching & Redis pub/sub',
+      'Fault-tolerant distributed system telemetry & tracing',
+    ],
+    deliverables: [
+      'Production autonomous agent framework',
+      'Microservice architecture blueprint & Docker swarm',
+      'State persistence schema & Redis event bus',
+      'Distributed telemetry & performance dashboard',
+    ],
+    personas: ['ai-engineer', 'cloud-architect', 'fullstack'],
   },
 ]

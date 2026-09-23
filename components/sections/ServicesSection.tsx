@@ -152,6 +152,31 @@ function ServiceCard({
               <path d="M 292 200 A 56 56 0 0 0 292 312" stroke="currentColor" strokeWidth="14" strokeLinecap="round" opacity="0.7" />
             </svg>
           )}
+
+          {/* Autonomous Systems & Architecture Icon — Quantum Processor Matrix */}
+          {icon === 'cpu' && (
+            <svg viewBox="0 0 512 512" fill="none" className="w-full h-full">
+              <rect x="144" y="144" width="224" height="224" rx="20" stroke="currentColor" strokeWidth="16" />
+              <rect x="192" y="192" width="128" height="128" rx="8" stroke="currentColor" strokeWidth="12" fill="currentColor" fillOpacity="0.15" />
+              <circle cx="256" cy="256" r="28" fill="currentColor" />
+              {/* Top pins */}
+              <line x1="200" y1="56" x2="200" y2="144" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
+              <line x1="256" y1="56" x2="256" y2="144" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
+              <line x1="312" y1="56" x2="312" y2="144" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
+              {/* Bottom pins */}
+              <line x1="200" y1="368" x2="200" y2="456" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
+              <line x1="256" y1="368" x2="256" y2="456" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
+              <line x1="312" y1="368" x2="312" y2="456" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
+              {/* Left pins */}
+              <line x1="56" y1="200" x2="144" y2="200" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
+              <line x1="56" y1="256" x2="144" y2="256" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
+              <line x1="56" y1="312" x2="144" y2="312" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
+              {/* Right pins */}
+              <line x1="368" y1="200" x2="456" y2="200" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
+              <line x1="368" y1="256" x2="456" y2="256" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
+              <line x1="368" y1="312" x2="456" y2="312" stroke="currentColor" strokeWidth="12" strokeLinecap="round" />
+            </svg>
+          )}
         </div>
       </div>
       <p
@@ -174,11 +199,12 @@ export default function ServicesSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const mobileTrackRef = useRef<HTMLDivElement>(null)
 
-  // 5 Unique Services partitioned across left and right — ZERO DUPLICATION
-  // Left Column (3 services): Full Stack, Cloud Architecture, Creative UI/UX
+  // 3 Balanced Pairs — Appearing simultaneously on both sides (ZERO DUPLICATION)
+  // Pair 1: Full Stack Web Engineering (L) & AI Engineering & Automation (R)
+  // Pair 2: Cloud Architecture & DevOps (L) & MVP & Product Engineering (R)
+  // Pair 3: Creative UI/UX & Design Systems (L) & Autonomous Systems & Architecture (R)
   const leftServices = [SERVICES[0], SERVICES[2], SERVICES[4]]
-  // Right Column (2 services): AI Engineering, MVP Engineering
-  const rightServices = [SERVICES[1], SERVICES[3]]
+  const rightServices = [SERVICES[1], SERVICES[3], SERVICES[5]]
 
   useGSAP(
     () => {
@@ -188,17 +214,17 @@ export default function ServicesSection() {
       const mm = gsap.matchMedia()
 
       // ─────────────────────────────────────────────────────────────
-      // DESKTOP (>= 768px): Dual Semicircular Orbital Stage
-      // Cards enter from corners, curve inward to middle, and exit to corners
-      // Progressive pipeline: invisible (autoAlpha: 0) -> blur(16px) -> focus (blur: 0px, autoAlpha: 1)
+      // DESKTOP (>= 768px): Synchronized Dual Semicircular Orbital Stage
+      // Both sides appear simultaneously in pairs.
+      // When a pair is in the middle, the next pair is ALREADY appearing at the bottom corners (less visible, blurred).
       // ─────────────────────────────────────────────────────────────
       mm.add('(min-width: 768px)', () => {
         const leftCards = gsap.utils.toArray<HTMLElement>('.svc-card-desktop-left')
         const rightCards = gsap.utils.toArray<HTMLElement>('.svc-card-desktop-right')
         if (leftCards.length === 0 || rightCards.length === 0) return
 
-        const scrollLength = window.innerHeight * 4.5
-        const yDist = Math.min(window.innerHeight * 0.36, 300)
+        const scrollLength = window.innerHeight * 4.2
+        const yDist = Math.min(window.innerHeight * 0.35, 290)
         const xDist = Math.min(window.innerWidth * 0.08, 110)
 
         // Master scrubbed timeline for the pinned section
@@ -217,145 +243,84 @@ export default function ServicesSection() {
           },
         })
 
+        // 1. INITIAL STATE (Scroll = 0):
+        // Pair 0 is IN THE MIDDLE (full focus)
+        gsap.set(leftCards[0], { x: 0, y: 0, rotation: 0, autoAlpha: 1, filter: 'blur(0px)', scale: 1 })
+        gsap.set(rightCards[0], { x: 0, y: 0, rotation: 0, autoAlpha: 1, filter: 'blur(0px)', scale: 1 })
+
+        // Pair 1 is ALREADY VISIBLE at the bottom corners (less visible / blurred)
+        if (leftCards[1] && rightCards[1]) {
+          gsap.set(leftCards[1], { x: -xDist, y: yDist, rotation: 5, autoAlpha: 0.35, filter: 'blur(10px)', scale: 0.92 })
+          gsap.set(rightCards[1], { x: xDist, y: yDist, rotation: -5, autoAlpha: 0.35, filter: 'blur(10px)', scale: 0.92 })
+        }
+
+        // Pair 2 is initially waiting offscreen below
+        if (leftCards[2] && rightCards[2]) {
+          gsap.set(leftCards[2], { x: -xDist, y: yDist + 80, rotation: 5, autoAlpha: 0, filter: 'blur(16px)', scale: 0.88 })
+          gsap.set(rightCards[2], { x: xDist, y: yDist + 80, rotation: -5, autoAlpha: 0, filter: 'blur(16px)', scale: 0.88 })
+        }
+
         // ─────────────────────────────────────────────────────────
-        // LEFT COLUMN ARC: Bottom-Left Corner -> Center Focus -> Top-Left Corner
+        // FIRST TRANSITION (Time: 12 -> 42): Pair 0 exits to top corners, Pair 1 glides to middle
         // ─────────────────────────────────────────────────────────
 
-        // Card L0 (Full Stack Web Engineering): Starts centered, exits to top-left
-        gsap.set(leftCards[0], {
-          x: 0,
-          y: 0,
-          rotation: 0,
-          autoAlpha: 1,
-          filter: 'blur(0px)',
-          scale: 1,
-        })
+        // Pair 0 exits to top-left and top-right corners
         tl.to(
           leftCards[0],
-          {
-            x: -xDist,
-            y: -yDist,
-            rotation: -6,
-            autoAlpha: 0,
-            filter: 'blur(16px)',
-            scale: 0.88,
-            ease: 'power1.in',
-          },
+          { x: -xDist, y: -yDist, rotation: -5, autoAlpha: 0, filter: 'blur(16px)', scale: 0.88, ease: 'power1.in' },
+          12
+        )
+        tl.to(
+          rightCards[0],
+          { x: xDist, y: -yDist, rotation: 5, autoAlpha: 0, filter: 'blur(16px)', scale: 0.88, ease: 'power1.in' },
           12
         )
 
-        // Card L1 (Cloud Architecture & DevOps): Enters from bottom-left, centers, exits to top-left
-        if (leftCards[1]) {
-          gsap.set(leftCards[1], {
-            x: -xDist,
-            y: yDist,
-            rotation: 6,
-            autoAlpha: 0,
-            filter: 'blur(16px)',
-            scale: 0.88,
-          })
+        // Pair 1 glides simultaneously into the middle (from 0.35 blur(10px) to 1.0 blur(0px))
+        if (leftCards[1] && rightCards[1]) {
           tl.to(
-            leftCards[1],
-            {
-              x: 0,
-              y: 0,
-              rotation: 0,
-              autoAlpha: 1,
-              filter: 'blur(0px)',
-              scale: 1,
-              ease: 'power1.out',
-            },
-            16
+            [leftCards[1], rightCards[1]],
+            { x: 0, y: 0, rotation: 0, autoAlpha: 1, filter: 'blur(0px)', scale: 1, ease: 'power1.out' },
+            12
+          )
+        }
+
+        // While Pair 1 is arriving in the middle, Pair 2 enters the bottom corners (becomes partially visible)
+        if (leftCards[2] && rightCards[2]) {
+          tl.to(
+            leftCards[2],
+            { x: -xDist, y: yDist, rotation: 5, autoAlpha: 0.35, filter: 'blur(10px)', scale: 0.92, ease: 'power1.out' },
+            20
           )
           tl.to(
+            rightCards[2],
+            { x: xDist, y: yDist, rotation: -5, autoAlpha: 0.35, filter: 'blur(10px)', scale: 0.92, ease: 'power1.out' },
+            20
+          )
+        }
+
+        // ─────────────────────────────────────────────────────────
+        // SECOND TRANSITION (Time: 58 -> 88): Pair 1 exits to top corners, Pair 2 glides to middle
+        // ─────────────────────────────────────────────────────────
+        if (leftCards[1] && rightCards[1]) {
+          tl.to(
             leftCards[1],
-            {
-              x: -xDist,
-              y: -yDist,
-              rotation: -6,
-              autoAlpha: 0,
-              filter: 'blur(16px)',
-              scale: 0.88,
-              ease: 'power1.in',
-            },
+            { x: -xDist, y: -yDist, rotation: -5, autoAlpha: 0, filter: 'blur(16px)', scale: 0.88, ease: 'power1.in' },
+            58
+          )
+          tl.to(
+            rightCards[1],
+            { x: xDist, y: -yDist, rotation: 5, autoAlpha: 0, filter: 'blur(16px)', scale: 0.88, ease: 'power1.in' },
             58
           )
         }
 
-        // Card L2 (Creative UI/UX & Design Systems): Enters from bottom-left, holds at center
-        if (leftCards[2]) {
-          gsap.set(leftCards[2], {
-            x: -xDist,
-            y: yDist,
-            rotation: 6,
-            autoAlpha: 0,
-            filter: 'blur(16px)',
-            scale: 0.88,
-          })
+        // Pair 2 glides simultaneously into the middle (from 0.35 blur(10px) to 1.0 blur(0px))
+        if (leftCards[2] && rightCards[2]) {
           tl.to(
-            leftCards[2],
-            {
-              x: 0,
-              y: 0,
-              rotation: 0,
-              autoAlpha: 1,
-              filter: 'blur(0px)',
-              scale: 1,
-              ease: 'power1.out',
-            },
-            60
-          )
-        }
-
-        // ─────────────────────────────────────────────────────────
-        // RIGHT COLUMN ARC: Top-Right Corner -> Center Focus -> Bottom-Right Corner
-        // ─────────────────────────────────────────────────────────
-
-        // Card R0 (AI Engineering & Automation): Starts centered, exits to bottom-right
-        gsap.set(rightCards[0], {
-          x: 0,
-          y: 0,
-          rotation: 0,
-          autoAlpha: 1,
-          filter: 'blur(0px)',
-          scale: 1,
-        })
-        tl.to(
-          rightCards[0],
-          {
-            x: xDist,
-            y: yDist,
-            rotation: 6,
-            autoAlpha: 0,
-            filter: 'blur(16px)',
-            scale: 0.88,
-            ease: 'power1.in',
-          },
-          22
-        )
-
-        // Card R1 (MVP & Product Engineering): Enters from top-right, holds at center
-        if (rightCards[1]) {
-          gsap.set(rightCards[1], {
-            x: xDist,
-            y: -yDist,
-            rotation: -6,
-            autoAlpha: 0,
-            filter: 'blur(16px)',
-            scale: 0.88,
-          })
-          tl.to(
-            rightCards[1],
-            {
-              x: 0,
-              y: 0,
-              rotation: 0,
-              autoAlpha: 1,
-              filter: 'blur(0px)',
-              scale: 1,
-              ease: 'power1.out',
-            },
-            28
+            [leftCards[2], rightCards[2]],
+            { x: 0, y: 0, rotation: 0, autoAlpha: 1, filter: 'blur(0px)', scale: 1, ease: 'power1.out' },
+            58
           )
         }
       })
@@ -565,7 +530,7 @@ export default function ServicesSection() {
               }}
             >
               <ServiceCard
-                index={index}
+                index={index * 2}
                 title={svc.title}
                 tagline={svc.tagline}
                 shortDescription={svc.shortDescription}
@@ -579,7 +544,7 @@ export default function ServicesSection() {
         {/* CENTER VOID — Generous open space framing the 3D crystal */}
         <div className="flex-1 pointer-events-none min-w-[80px] md:min-w-[160px] lg:min-w-[220px]" />
 
-        {/* RIGHT COLUMN STAGE — Semicircular Arc Path (2 unique services) */}
+        {/* RIGHT COLUMN STAGE — Semicircular Arc Path (3 unique services) */}
         <div className="relative w-full max-w-[320px] sm:max-w-[350px] lg:max-w-[390px] h-full flex items-center justify-center overflow-visible pointer-events-none">
           {rightServices.map((svc, index) => (
             <div
@@ -590,7 +555,7 @@ export default function ServicesSection() {
               }}
             >
               <ServiceCard
-                index={index + 1}
+                index={index * 2 + 1}
                 title={svc.title}
                 tagline={svc.tagline}
                 shortDescription={svc.shortDescription}
