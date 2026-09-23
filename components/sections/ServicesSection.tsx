@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -12,15 +12,19 @@ import SVCrystalScrubber from '@/components/animations/SVCrystalScrubber'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Minimal Trionn-style service card (Title + Geometric SVG Icon + 2-line Description)
+// Minimal Trionn-style service card (Title + Geometric SVG Icon + High-Visibility Description + Category Badge)
 function ServiceCard({
+  index,
   title,
+  tagline,
   shortDescription,
   icon,
   accentLight,
   isMobile = false,
 }: {
+  index: number
   title: string
+  tagline?: string
   shortDescription: string
   icon: string
   accentLight: string
@@ -28,25 +32,39 @@ function ServiceCard({
 }) {
   return (
     <div
-      className={`flex flex-col gap-3 sm:gap-4 rounded-2xl border transition-all duration-300 will-change-transform group ${
+      className={`flex flex-col gap-3 sm:gap-4 rounded-2xl border transition-colors duration-300 will-change-transform group ${
         isMobile
-          ? 'p-5 sm:p-6 bg-[#080816]/95 backdrop-blur-2xl border-white/[0.14] w-full shadow-[0_16px_48px_rgba(0,0,0,0.95)]'
-          : 'p-6 sm:p-7 md:p-8 bg-[#080816]/90 backdrop-blur-xl border-white/[0.12] hover:border-white/25 hover:bg-[#080816]/95 shadow-[0_16px_48px_rgba(0,0,0,0.85)]'
+          ? 'p-5 sm:p-6 bg-[#070716]/95 backdrop-blur-2xl border-white/[0.18] w-full shadow-[0_20px_50px_rgba(0,0,0,0.95)]'
+          : 'p-6 sm:p-7 md:p-8 bg-[#070716]/95 backdrop-blur-2xl border-white/[0.18] hover:border-white/30 shadow-[0_24px_60px_rgba(0,0,0,0.92),inset_0_1px_0_rgba(255,255,255,0.12)]'
       }`}
     >
+      {/* Category / Index Badge */}
+      <div className="flex items-center justify-between gap-2">
+        <span className="font-mono text-[10px] sm:text-[11px] font-semibold tracking-[0.25em] text-white/50 uppercase">
+          {`0${index + 1} // ${tagline ? tagline.split('&')[0].trim() : 'SERVICE'}`}
+        </span>
+        <div
+          className="w-1.5 h-1.5 rounded-full"
+          style={{ backgroundColor: accentLight, boxShadow: `0 0 8px ${accentLight}` }}
+        />
+      </div>
+
       <div className="flex items-start justify-between gap-3 sm:gap-4">
         <h3
-          className={`font-display font-bold text-white uppercase tracking-tight leading-[1.15] break-words flex-1 ${
-            isMobile ? 'text-base sm:text-lg' : 'text-2xl sm:text-3xl lg:text-[28px]'
+          className={`font-display font-extrabold text-white uppercase tracking-tight leading-[1.15] break-words flex-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] ${
+            isMobile ? 'text-lg sm:text-xl' : 'text-2xl sm:text-3xl lg:text-[28px]'
           }`}
         >
           {title}
         </h3>
         <div
-          className={`flex-shrink-0 opacity-90 group-hover:opacity-100 transition-opacity ${
+          className={`flex-shrink-0 transition-transform duration-300 group-hover:scale-110 ${
             isMobile ? 'w-8 h-8 sm:w-9 sm:h-9' : 'w-11 h-11 md:w-12 md:h-12'
           }`}
-          style={{ color: accentLight }}
+          style={{
+            color: accentLight,
+            filter: `drop-shadow(0 0 12px ${accentLight}40)`,
+          }}
         >
           {/* Fullstack Web Engineering Icon — 4x4 Grid Matrix */}
           {icon === 'code' && (
@@ -54,7 +72,7 @@ function ServiceCard({
               <line x1="56" y1="56" x2="456" y2="56" stroke="currentColor" strokeWidth="16" strokeLinecap="round" />
               <line x1="56" y1="189" x2="456" y2="189" stroke="currentColor" strokeWidth="16" strokeLinecap="round" />
               <line x1="56" y1="323" x2="456" y2="323" stroke="currentColor" strokeWidth="16" strokeLinecap="round" />
-              <line x1="56" y1="456" x2="456" y2="456" stroke="currentColor" strokeWidth="16" strokeLinecap="round" />
+              <line x1="456" y1="456" x2="456" y2="456" stroke="currentColor" strokeWidth="16" strokeLinecap="round" />
               <line x1="56" y1="56" x2="56" y2="456" stroke="currentColor" strokeWidth="16" strokeLinecap="round" />
               <line x1="189" y1="56" x2="189" y2="456" stroke="currentColor" strokeWidth="16" strokeLinecap="round" />
               <line x1="323" y1="56" x2="323" y2="456" stroke="currentColor" strokeWidth="16" strokeLinecap="round" />
@@ -137,8 +155,8 @@ function ServiceCard({
         </div>
       </div>
       <p
-        className={`text-white/60 leading-relaxed font-sans ${
-          isMobile ? 'text-xs sm:text-sm max-w-[300px]' : 'text-sm sm:text-[15px] max-w-[340px]'
+        className={`text-slate-100 font-normal leading-relaxed font-sans drop-shadow-[0_1px_4px_rgba(0,0,0,0.85)] ${
+          isMobile ? 'text-xs sm:text-sm max-w-[320px]' : 'text-sm sm:text-[15px] max-w-[360px]'
         }`}
       >
         {shortDescription}
@@ -154,8 +172,6 @@ export default function ServicesSection() {
   const [scrollProgress, setScrollProgress] = useState(0)
 
   const sectionRef = useRef<HTMLElement>(null)
-  const leftColRef = useRef<HTMLDivElement>(null)
-  const rightColRef = useRef<HTMLDivElement>(null)
   const mobileTrackRef = useRef<HTMLDivElement>(null)
 
   // 5 Unique Services partitioned across left and right — ZERO DUPLICATION
@@ -169,235 +185,308 @@ export default function ServicesSection() {
       const section = sectionRef.current
       if (!section) return
 
-    const mm = gsap.matchMedia()
+      const mm = gsap.matchMedia()
 
-    // ─────────────────────────────────────────────────────────────
-    // DESKTOP (>= 768px): Progressive Dual Rolling Columns (Trionn Desktop)
-    // ─────────────────────────────────────────────────────────────
-    mm.add('(min-width: 768px)', () => {
-      const leftCol = leftColRef.current
-      const rightCol = rightColRef.current
-      if (!leftCol || !rightCol) return
+      // ─────────────────────────────────────────────────────────────
+      // DESKTOP (>= 768px): Dual Semicircular Orbital Stage
+      // Cards enter from corners, curve inward to middle, and exit to corners
+      // Progressive pipeline: invisible (autoAlpha: 0) -> blur(16px) -> focus (blur: 0px, autoAlpha: 1)
+      // ─────────────────────────────────────────────────────────────
+      mm.add('(min-width: 768px)', () => {
+        const leftCards = gsap.utils.toArray<HTMLElement>('.svc-card-desktop-left')
+        const rightCards = gsap.utils.toArray<HTMLElement>('.svc-card-desktop-right')
+        if (leftCards.length === 0 || rightCards.length === 0) return
 
-      const leftCards = gsap.utils.toArray<HTMLElement>('.svc-card-desktop-left')
-      const rightCards = gsap.utils.toArray<HTMLElement>('.svc-card-desktop-right')
-      const scrollLength = window.innerHeight * 4.5
+        const scrollLength = window.innerHeight * 4.5
+        const yDist = Math.min(window.innerHeight * 0.36, 300)
+        const xDist = Math.min(window.innerWidth * 0.08, 110)
 
-      // 1. Pin Section & Scrub Progress (Priority 2: Evaluated first in DOM flow)
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top top',
-        end: `+=${scrollLength}`,
-        pin: true,
-        anticipatePin: 1,
-        refreshPriority: 2,
-        onUpdate: (self) => {
-          setScrollProgress(self.progress)
-        },
-      })
-
-      // 2. Left column rolls UPwards smoothly across scroll
-      gsap.fromTo(
-        leftCol,
-        { y: '28%' },
-        {
-          y: '-32%',
-          ease: 'none',
+        // Master scrubbed timeline for the pinned section
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
             start: 'top top',
             end: `+=${scrollLength}`,
+            pin: true,
+            anticipatePin: 1,
             scrub: 1.2,
             refreshPriority: 2,
+            onUpdate: (self) => {
+              setScrollProgress(self.progress)
+            },
           },
-        }
-      )
-
-      // 3. Right column rolls DOWNwards smoothly across scroll
-      gsap.fromTo(
-        rightCol,
-        { y: '-32%' },
-        {
-          y: '28%',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top top',
-            end: `+=${scrollLength}`,
-            scrub: 1.2,
-            refreshPriority: 2,
-          },
-        }
-      )
-
-      // 4. Staggered progressive card focus arc
-      // Cards sit at clean base opacity (0.35) and peak to 1.0 as they cross the vertical center
-      const setupProgressiveArc = (cards: HTMLElement[], totalItems: number, offsetProgress = 0) => {
-        cards.forEach((card, i) => {
-          const centerPoint = (i + offsetProgress) / totalItems
-          const windowSpan = 0.35 / totalItems
-
-          const enterP = Math.max(0, centerPoint - windowSpan)
-          const exitP = Math.min(1, centerPoint + windowSpan)
-
-          gsap.fromTo(
-            card,
-            { opacity: 0.35, scale: 0.94 },
-            {
-              opacity: 1,
-              scale: 1,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: section,
-                start: `top+=${enterP * scrollLength} top`,
-                end: `top+=${centerPoint * scrollLength} top`,
-                scrub: 0.8,
-              },
-            }
-          )
-
-          gsap.fromTo(
-            card,
-            { opacity: 1, scale: 1 },
-            {
-              opacity: 0.35,
-              scale: 0.94,
-              ease: 'power2.in',
-              scrollTrigger: {
-                trigger: section,
-                start: `top+=${centerPoint * scrollLength} top`,
-                end: `top+=${exitP * scrollLength} top`,
-                scrub: 0.8,
-              },
-            }
-          )
         })
-      }
 
-      setupProgressiveArc(leftCards, 3, 0.45)
-      setupProgressiveArc(rightCards, 2, 0.55)
-    })
+        // ─────────────────────────────────────────────────────────
+        // LEFT COLUMN ARC: Bottom-Left Corner -> Center Focus -> Top-Left Corner
+        // ─────────────────────────────────────────────────────────
 
-    // ─────────────────────────────────────────────────────────────
-    // MOBILE (< 768px): Progressive Vertical Stream (Trionn Mobile)
-    // ─────────────────────────────────────────────────────────────
-    mm.add('(max-width: 767px)', () => {
-      const mobileTrack = mobileTrackRef.current
-      if (!mobileTrack) return
+        // Card L0 (Full Stack Web Engineering): Starts centered, exits to top-left
+        gsap.set(leftCards[0], {
+          x: 0,
+          y: 0,
+          rotation: 0,
+          autoAlpha: 1,
+          filter: 'blur(0px)',
+          scale: 1,
+        })
+        tl.to(
+          leftCards[0],
+          {
+            x: -xDist,
+            y: -yDist,
+            rotation: -6,
+            autoAlpha: 0,
+            filter: 'blur(16px)',
+            scale: 0.88,
+            ease: 'power1.in',
+          },
+          12
+        )
 
-      const mobileCards = gsap.utils.toArray<HTMLElement>('.svc-mobile-card')
-      const totalCards = SERVICES.length
-      const mobileScrollLength = window.innerHeight * 3.2
+        // Card L1 (Cloud Architecture & DevOps): Enters from bottom-left, centers, exits to top-left
+        if (leftCards[1]) {
+          gsap.set(leftCards[1], {
+            x: -xDist,
+            y: yDist,
+            rotation: 6,
+            autoAlpha: 0,
+            filter: 'blur(16px)',
+            scale: 0.88,
+          })
+          tl.to(
+            leftCards[1],
+            {
+              x: 0,
+              y: 0,
+              rotation: 0,
+              autoAlpha: 1,
+              filter: 'blur(0px)',
+              scale: 1,
+              ease: 'power1.out',
+            },
+            16
+          )
+          tl.to(
+            leftCards[1],
+            {
+              x: -xDist,
+              y: -yDist,
+              rotation: -6,
+              autoAlpha: 0,
+              filter: 'blur(16px)',
+              scale: 0.88,
+              ease: 'power1.in',
+            },
+            58
+          )
+        }
 
-      // 1. Pin Section on mobile
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top top',
-        end: `+=${mobileScrollLength}`,
-        pin: true,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          setScrollProgress(self.progress)
-        },
+        // Card L2 (Creative UI/UX & Design Systems): Enters from bottom-left, holds at center
+        if (leftCards[2]) {
+          gsap.set(leftCards[2], {
+            x: -xDist,
+            y: yDist,
+            rotation: 6,
+            autoAlpha: 0,
+            filter: 'blur(16px)',
+            scale: 0.88,
+          })
+          tl.to(
+            leftCards[2],
+            {
+              x: 0,
+              y: 0,
+              rotation: 0,
+              autoAlpha: 1,
+              filter: 'blur(0px)',
+              scale: 1,
+              ease: 'power1.out',
+            },
+            60
+          )
+        }
+
+        // ─────────────────────────────────────────────────────────
+        // RIGHT COLUMN ARC: Top-Right Corner -> Center Focus -> Bottom-Right Corner
+        // ─────────────────────────────────────────────────────────
+
+        // Card R0 (AI Engineering & Automation): Starts centered, exits to bottom-right
+        gsap.set(rightCards[0], {
+          x: 0,
+          y: 0,
+          rotation: 0,
+          autoAlpha: 1,
+          filter: 'blur(0px)',
+          scale: 1,
+        })
+        tl.to(
+          rightCards[0],
+          {
+            x: xDist,
+            y: yDist,
+            rotation: 6,
+            autoAlpha: 0,
+            filter: 'blur(16px)',
+            scale: 0.88,
+            ease: 'power1.in',
+          },
+          22
+        )
+
+        // Card R1 (MVP & Product Engineering): Enters from top-right, holds at center
+        if (rightCards[1]) {
+          gsap.set(rightCards[1], {
+            x: xDist,
+            y: -yDist,
+            rotation: -6,
+            autoAlpha: 0,
+            filter: 'blur(16px)',
+            scale: 0.88,
+          })
+          tl.to(
+            rightCards[1],
+            {
+              x: 0,
+              y: 0,
+              rotation: 0,
+              autoAlpha: 1,
+              filter: 'blur(0px)',
+              scale: 1,
+              ease: 'power1.out',
+            },
+            28
+          )
+        }
       })
 
-      // 2. Translate the vertical stream upwards smoothly
-      // Each slot is 65vh. Distance to move so each card passes through center:
-      // When y: 0, Card 0 is centered.
-      // When y: -(totalCards - 1) * 65vh, Card (N-1) is centered.
-      const slotHeight = window.innerHeight * 0.65
-      const totalTranslate = slotHeight * (totalCards - 1)
+      // ─────────────────────────────────────────────────────────────
+      // MOBILE (< 768px): Progressive Vertical Stream (Trionn Mobile)
+      // Cards stream vertically with progressive invisible -> blur -> focus -> blur -> invisible
+      // ─────────────────────────────────────────────────────────────
+      mm.add('(max-width: 767px)', () => {
+        const mobileTrack = mobileTrackRef.current
+        if (!mobileTrack) return
 
-      gsap.fromTo(
-        mobileTrack,
-        { y: 0 },
-        {
-          y: -totalTranslate,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top top',
-            end: `+=${mobileScrollLength}`,
-            scrub: 1,
+        const mobileCards = gsap.utils.toArray<HTMLElement>('.svc-mobile-card')
+        const totalCards = SERVICES.length
+        const mobileScrollLength = window.innerHeight * 3.2
+
+        // 1. Pin Section on mobile
+        ScrollTrigger.create({
+          trigger: section,
+          start: 'top top',
+          end: `+=${mobileScrollLength}`,
+          pin: true,
+          anticipatePin: 1,
+          refreshPriority: 2,
+          onUpdate: (self) => {
+            setScrollProgress(self.progress)
           },
-        }
-      )
+        })
 
-      // 3. Progressive Reveal for each card:
-      // Active card in viewport center is full opacity (1.0), scale 1.0.
-      // Cards entering from bottom or exiting to top sit at solid base opacity (0.35), scale 0.94.
-      mobileCards.forEach((card, i) => {
-        const centerProgress = i / (totalCards - 1)
-        const halfWindow = 0.45 / (totalCards - 1)
-        const enterStart = Math.max(0, centerProgress - halfWindow)
-        const exitEnd = Math.min(1, centerProgress + halfWindow)
+        // 2. Translate the vertical stream upwards smoothly
+        const slotHeight = window.innerHeight * 0.65
+        const totalTranslate = slotHeight * (totalCards - 1)
 
-        if (i === 0) {
-          // First card starts in center, active immediately
-          gsap.set(card, { opacity: 1, scale: 1 })
-          gsap.to(card, {
-            opacity: 0.35,
-            scale: 0.94,
-            ease: 'power2.in',
+        gsap.fromTo(
+          mobileTrack,
+          { y: 0 },
+          {
+            y: -totalTranslate,
+            ease: 'none',
             scrollTrigger: {
               trigger: section,
-              start: `top+=${centerProgress * mobileScrollLength} top`,
-              end: `top+=${exitEnd * mobileScrollLength} top`,
-              scrub: 0.6,
+              start: 'top top',
+              end: `+=${mobileScrollLength}`,
+              scrub: 1,
+              refreshPriority: 2,
             },
-          })
-        } else if (i === totalCards - 1) {
-          // Last card enters from below, stays active at the end
-          gsap.set(card, { opacity: 0.35, scale: 0.94 })
-          gsap.to(card, {
-            opacity: 1,
-            scale: 1,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: section,
-              start: `top+=${enterStart * mobileScrollLength} top`,
-              end: `top+=${centerProgress * mobileScrollLength} top`,
-              scrub: 0.6,
-            },
-          })
-        } else {
-          // Intermediate cards: enter from below -> peak at center -> exit to top
-          gsap.set(card, { opacity: 0.35, scale: 0.94 })
+          }
+        )
 
-          gsap.fromTo(
-            card,
-            { opacity: 0.35, scale: 0.94 },
-            {
-              opacity: 1,
-              scale: 1,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: section,
-                start: `top+=${enterStart * mobileScrollLength} top`,
-                end: `top+=${centerProgress * mobileScrollLength} top`,
-                scrub: 0.6,
-              },
-            }
-          )
+        // 3. Progressive Reveal for each card:
+        // invisible (autoAlpha: 0) -> blur(14px) -> focus (autoAlpha: 1, blur(0px)) -> blur(14px) -> invisible (autoAlpha: 0)
+        mobileCards.forEach((card, i) => {
+          const centerProgress = i / (totalCards - 1)
+          const halfWindow = 0.45 / (totalCards - 1)
+          const enterStart = Math.max(0, centerProgress - halfWindow)
+          const exitEnd = Math.min(1, centerProgress + halfWindow)
 
-          gsap.fromTo(
-            card,
-            { opacity: 1, scale: 1 },
-            {
-              opacity: 0.35,
-              scale: 0.94,
-              ease: 'power2.in',
+          if (i === 0) {
+            // First card starts in center focus
+            gsap.set(card, { autoAlpha: 1, filter: 'blur(0px)', scale: 1, y: 0 })
+            gsap.to(card, {
+              autoAlpha: 0,
+              filter: 'blur(14px)',
+              scale: 0.9,
+              y: -30,
+              ease: 'power1.in',
               scrollTrigger: {
                 trigger: section,
                 start: `top+=${centerProgress * mobileScrollLength} top`,
                 end: `top+=${exitEnd * mobileScrollLength} top`,
                 scrub: 0.6,
               },
-            }
-          )
-        }
+            })
+          } else if (i === totalCards - 1) {
+            // Last card enters from below and stays in focus
+            gsap.set(card, { autoAlpha: 0, filter: 'blur(14px)', scale: 0.9, y: 30 })
+            gsap.to(card, {
+              autoAlpha: 1,
+              filter: 'blur(0px)',
+              scale: 1,
+              y: 0,
+              ease: 'power1.out',
+              scrollTrigger: {
+                trigger: section,
+                start: `top+=${enterStart * mobileScrollLength} top`,
+                end: `top+=${centerProgress * mobileScrollLength} top`,
+                scrub: 0.6,
+              },
+            })
+          } else {
+            // Intermediate cards: enter invisible+blur -> focus -> exit blur+invisible
+            gsap.set(card, { autoAlpha: 0, filter: 'blur(14px)', scale: 0.9, y: 30 })
+
+            gsap.fromTo(
+              card,
+              { autoAlpha: 0, filter: 'blur(14px)', scale: 0.9, y: 30 },
+              {
+                autoAlpha: 1,
+                filter: 'blur(0px)',
+                scale: 1,
+                y: 0,
+                ease: 'power1.out',
+                scrollTrigger: {
+                  trigger: section,
+                  start: `top+=${enterStart * mobileScrollLength} top`,
+                  end: `top+=${centerProgress * mobileScrollLength} top`,
+                  scrub: 0.6,
+                },
+              }
+            )
+
+            gsap.fromTo(
+              card,
+              { autoAlpha: 1, filter: 'blur(0px)', scale: 1, y: 0 },
+              {
+                autoAlpha: 0,
+                filter: 'blur(14px)',
+                scale: 0.9,
+                y: -30,
+                ease: 'power1.in',
+                scrollTrigger: {
+                  trigger: section,
+                  start: `top+=${centerProgress * mobileScrollLength} top`,
+                  end: `top+=${exitEnd * mobileScrollLength} top`,
+                  scrub: 0.6,
+                },
+              }
+            )
+          }
+        })
       })
-    })
 
       return () => mm.revert()
     },
@@ -463,41 +552,53 @@ export default function ServicesSection() {
         </span>
       </div>
 
-      {/* 3A. DESKTOP FOREGROUND (>= 768px): Progressive Dual Rolling Columns (NO DUPLICATION, z-20) */}
+      {/* 3A. DESKTOP FOREGROUND (>= 768px): Dual Semicircular Orbital Stage (z-20) */}
       <div className="hidden md:flex relative z-20 w-full h-full items-center justify-between px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 pointer-events-none">
-        {/* LEFT COLUMN — rolls UP (3 unique services) */}
-        <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[350px] lg:max-w-[380px] h-full flex items-center overflow-hidden pointer-events-auto">
-          <div ref={leftColRef} className="flex flex-col gap-28 md:gap-36 w-full py-32 will-change-transform">
-            {leftServices.map((svc) => (
-              <div key={`left-${svc.id}`} className="svc-card-desktop-left relative z-10">
-                <ServiceCard
-                  title={svc.title}
-                  shortDescription={svc.shortDescription}
-                  icon={svc.icon}
-                  accentLight={accentLight}
-                />
-              </div>
-            ))}
-          </div>
+        {/* LEFT COLUMN STAGE — Semicircular Arc Path (3 unique services) */}
+        <div className="relative w-full max-w-[320px] sm:max-w-[350px] lg:max-w-[390px] h-full flex items-center justify-center overflow-visible pointer-events-none">
+          {leftServices.map((svc, index) => (
+            <div
+              key={`left-${svc.id}`}
+              className="svc-card-desktop-left absolute w-full pointer-events-auto will-change-transform"
+              style={{
+                transformOrigin: 'left center',
+              }}
+            >
+              <ServiceCard
+                index={index}
+                title={svc.title}
+                tagline={svc.tagline}
+                shortDescription={svc.shortDescription}
+                icon={svc.icon}
+                accentLight={accentLight}
+              />
+            </div>
+          ))}
         </div>
 
         {/* CENTER VOID — Generous open space framing the 3D crystal */}
         <div className="flex-1 pointer-events-none min-w-[80px] md:min-w-[160px] lg:min-w-[220px]" />
 
-        {/* RIGHT COLUMN — rolls DOWN (2 unique services) */}
-        <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[350px] lg:max-w-[380px] h-full flex items-center overflow-hidden pointer-events-auto">
-          <div ref={rightColRef} className="flex flex-col gap-32 md:gap-40 w-full py-40 will-change-transform">
-            {rightServices.map((svc) => (
-              <div key={`right-${svc.id}`} className="svc-card-desktop-right relative z-10">
-                <ServiceCard
-                  title={svc.title}
-                  shortDescription={svc.shortDescription}
-                  icon={svc.icon}
-                  accentLight={accentLight}
-                />
-              </div>
-            ))}
-          </div>
+        {/* RIGHT COLUMN STAGE — Semicircular Arc Path (2 unique services) */}
+        <div className="relative w-full max-w-[320px] sm:max-w-[350px] lg:max-w-[390px] h-full flex items-center justify-center overflow-visible pointer-events-none">
+          {rightServices.map((svc, index) => (
+            <div
+              key={`right-${svc.id}`}
+              className="svc-card-desktop-right absolute w-full pointer-events-auto will-change-transform"
+              style={{
+                transformOrigin: 'right center',
+              }}
+            >
+              <ServiceCard
+                index={index + 1}
+                title={svc.title}
+                tagline={svc.tagline}
+                shortDescription={svc.shortDescription}
+                icon={svc.icon}
+                accentLight={accentLight}
+              />
+            </div>
+          ))}
         </div>
       </div>
 
@@ -507,14 +608,16 @@ export default function ServicesSection() {
           ref={mobileTrackRef}
           className="w-full max-w-[340px] sm:max-w-[380px] flex flex-col items-center will-change-transform pointer-events-auto px-4 pt-[17.5vh] pb-[17.5vh]"
         >
-          {SERVICES.map((svc) => (
+          {SERVICES.map((svc, index) => (
             <div
               key={`mobile-${svc.id}`}
               className="svc-mobile-slot w-full h-[65vh] flex items-center justify-center flex-shrink-0"
             >
               <div className="svc-mobile-card w-full">
                 <ServiceCard
+                  index={index}
                   title={svc.title}
+                  tagline={svc.tagline}
                   shortDescription={svc.shortDescription}
                   icon={svc.icon}
                   accentLight={accentLight}
