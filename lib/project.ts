@@ -84,3 +84,28 @@ export async function getProjectBySlug(slug: string): Promise<ProjectWithPersona
   // Fallback to static data
   return PROJECTS.find((proj) => proj.slug === slug && proj.is_published) || null
 }
+
+/**
+ * Gets the previous and next projects relative to a given slug.
+ */
+export async function getAdjacentProjects(
+  currentSlug: string,
+  personaId?: PersonaId
+): Promise<{ prevProject: ProjectWithPersonas; nextProject: ProjectWithPersonas }> {
+  const allProjects = personaId
+    ? await getProjectsByPersona(personaId)
+    : PROJECTS.filter((p) => p.is_published)
+
+  const list = allProjects.length > 0 ? allProjects : PROJECTS
+  const currentIndex = list.findIndex((p) => p.slug === currentSlug)
+  const safeIndex = currentIndex === -1 ? 0 : currentIndex
+
+  const prevIndex = (safeIndex - 1 + list.length) % list.length
+  const nextIndex = (safeIndex + 1) % list.length
+
+  return {
+    prevProject: list[prevIndex],
+    nextProject: list[nextIndex],
+  }
+}
+

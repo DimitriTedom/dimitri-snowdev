@@ -41,21 +41,68 @@
 
 ---
 
-## 2. File Reference Map for Projects Page
+## 2. What Was Engineered in the Project Detail / Case Study Page (`/projects/[slug]`)
 
-| File | Purpose |
-|------|---------|
-| `components/sections/ProjectsHero.tsx` | Hero wrapper with transparent nav, text, and 3D Canvas |
-| `components/3d/FuturisticEnergyCore3D.tsx` | Three.js GLB model rendering & center rotation |
-| `components/effects/ScrollLightBeams.tsx` | SVG canvas rendering the 3-strand curves, tip dots, target dots, and contact flashes |
-| `components/sections/ProjectsCatalogueFlow.tsx` | Orchestrates scroll positions, beam triggers, and card reveal states |
-| `components/cards/ProjectCard.tsx` | Trionn-style card with blur-to-focus reveal animation |
-| `lib/supabase/server.ts` | Server Supabase client with 1s fallback timeout |
-| `data/projects.ts` | Static fallback data for all personas |
+### A. Aeruk-Style Hero Section (`ProjectDetailHeroAeruk.tsx`)
+- **3D Device Mockup Composition**:
+  - Centerpiece: 3D angled MacBook Pro mockup with dark aluminum bezel, glass sheen, and main project screenshot.
+  - Right Foreground: Floating iPhone mockup in perspective display showing the mobile layout.
+  - Left Background: Angled browser window displaying secondary interface flow.
+  - Deep atmospheric ambient lighting with radial gradient and dark grid texture.
+- **Monumental Centered Title (Modified per Dimitri's directive)**:
+  - Huge display typography (`CHEZFLORA E-COMMERCE WEB APP`) centered across the lower portion of the devices.
+  - Seamless gradient text (`#ffffff` via `#f3ecff` to `#d6bcfa`).
+  - **Explicit exclusions respected**: Removed the `< Retour` back button and removed the tech tags from the hero.
+
+### B. Trionn-Style Case Study Layout (`ProjectDetailTrionnContent.tsx`)
+- **Split-Screen Grid**:
+  - **Left Sticky Sidebar (`col-span-12 lg:col-span-5 xl:col-span-4 lg:sticky lg:top-28`)**:
+    - Minimalist `← Back to projects` navigation link with hover glide.
+    - Trionn signature separator line with center crosshair (`+`).
+    - Project index & metadata (`03 // WEB APPS`, `2025`).
+    - Scope & Deliverables bullet points.
+    - **4-Tab Interactive System** with animated underline and smooth content crossfade:
+      1. `The challenge`: Problem context and obstacles.
+      2. `Approach`: Architecture, design tokens, and technical strategy.
+      3. `Outcome`: Measurable metrics and client/jury reception.
+      4. `What we did`: Key technical accomplishments and deployment specifications.
+    - **Trionn-Style Action Links**:
+      - `Live Preview ↗` and `Source Code ↗` with animated underline hover effects.
+    - **Bottom Pagination**:
+      - `← Previous` and `Next →` project navigation links.
+  - **Right Visual Stream (`col-span-12 lg:col-span-7 xl:col-span-8`)**:
+    - High-res full-width master platform screenshot.
+    - Secondary and tertiary feature showcases.
+    - 3 Technical Highlight Cards: Performance, Type Safety (100% strict), and Architecture.
+    - Deployed Technologies badge cluster.
+
+### C. Trionn Next Project Teaser Banner (`ProjectDetailNextProjectBanner.tsx`)
+- Full-width dark magnetic banner at the bottom of the case study.
+- Oversized title with arrow `NEXT PROJECT → [Next Project Title]`.
+- Subtle zoom on hover and instant transition to the next case study.
 
 ---
 
-## 3. Immediate Next Target: The "About" Page (`/about`)
+## 3. File Reference Map for Projects & Case Studies
+
+| File | Purpose |
+|------|---------|
+| `app/(portfolio)/projects/page.tsx` | Main projects catalogue route with Aeruk hero & Trionn beams flow |
+| `app/(portfolio)/projects/[slug]/page.tsx` | Project case study page route |
+| `components/sections/ProjectDetailHeroAeruk.tsx` | Aeruk-style 3D device hero (no back button, no tags) |
+| `components/sections/ProjectDetailTrionnContent.tsx` | Trionn split-screen layout with 4 tabs & visual stream |
+| `components/sections/ProjectDetailNextProjectBanner.tsx` | Trionn bottom next project teaser banner |
+| `components/sections/ProjectsHeroAeruk.tsx` | Main projects page hero with 3D model |
+| `components/effects/ScrollLightBeams.tsx` | 3-strand curves, living waves, stationary dots, contact bloom |
+| `components/sections/ProjectsCatalogueFlow.tsx` | Flow orchestrator for catalogue cards |
+| `components/cards/ProjectCard.tsx` | Catalogue card with blur-to-focus reveal animation |
+| `lib/project.ts` | Data helpers: `getProjectsByPersona`, `getProjectBySlug`, `getAdjacentProjects` |
+| `lib/supabase/server.ts` | Server Supabase client with 1s fallback timeout |
+| `data/projects.ts` | Static project data for all personas |
+
+---
+
+## 4. Immediate Next Target: The "About" Page (`/about`)
 
 ### Goals & Directives for the Next Agent:
 1. **Route**: `/about` (adapts dynamically to `?persona=` fullstack, ai-engineer, cloud-architect, product-builder, entrepreneur).
