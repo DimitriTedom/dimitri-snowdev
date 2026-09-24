@@ -118,7 +118,25 @@
 
 ---
 
-## 4. Immediate Next Target: The "About" Page (`/about`)
+## 4. What Was Engineered in Error Handling & Not Found Pages
+
+### A. Shadcn Primitives (`components/ui/empty.tsx`)
+- Compound layout components: `Empty`, `EmptyHeader`, `EmptyTitle`, `EmptyDescription`, `EmptyContent`, `EmptyMedia`.
+- Follows Shadcn standards and supports custom status code presentations with flexible actions.
+
+### B. Masked Gradient Error Component (`components/ui/not-found-2.tsx`)
+- Oversized 9XL gradient masked typography (`404` / `500`) with ambient purple radial glow and cybernetic background grid.
+- Primary and secondary CTAs (`Return Home`, `Explore Projects`, or `Try Again` for fatal errors).
+- Persona-aware links (`?persona=...`).
+
+### C. App Router Coverage
+- Route group error page: `app/(portfolio)/not-found.tsx` with floating transparent header & bottom dock.
+- Route group error boundary: `app/(portfolio)/error.tsx` with client-side retry (`reset()`).
+- Root fallbacks: `app/not-found.tsx`, `app/error.tsx`, and `app/global-error.tsx`.
+
+---
+
+## 5. Immediate Next Target: The "About" Page (`/about`)
 
 ### Goals & Directives for the Next Agent:
 1. **Route**: `/about` (adapts dynamically to `?persona=` fullstack, ai-engineer, cloud-architect, product-builder, entrepreneur).
