@@ -2,7 +2,7 @@
 
 import React, { Suspense, useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useGLTF, Float, MeshDistortMaterial } from '@react-three/drei'
+import { useGLTF, Float, MeshDistortMaterial, Center, Environment, OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 
 interface ArtifactCoreProps {
@@ -91,13 +91,17 @@ function GlbModel({ path }: { path: string }) {
 
   useFrame((_, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.4
+      groupRef.current.rotation.y += delta * 0.35
     }
   })
 
   return (
     <group ref={groupRef} dispose={null}>
-      <primitive object={scene} scale={1.8} position={[0, -0.4, 0]} />
+      <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.4}>
+        <Center>
+          <primitive object={scene} scale={2.4} />
+        </Center>
+      </Float>
     </group>
   )
 }
@@ -119,10 +123,19 @@ function SceneContent({ modelPath, accentColor }: { modelPath: string; accentCol
 
   return (
     <>
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[5, 8, 5]} intensity={1.5} color="#ffffff" />
-      <pointLight position={[0, -1.2, 0]} intensity={3.5} color={accentColor} distance={6} />
-      <pointLight position={[0, 2, 2]} intensity={2.0} color="#ae6bf6" distance={8} />
+      <ambientLight intensity={1.2} />
+      <directionalLight position={[5, 8, 5]} intensity={2.0} color="#ffffff" />
+      <directionalLight position={[-5, -4, -5]} intensity={0.8} color={accentColor} />
+      <pointLight position={[0, -1.2, 0]} intensity={4.0} color={accentColor} distance={6} />
+      <pointLight position={[0, 2, 2]} intensity={2.5} color="#ae6bf6" distance={8} />
+
+      <OrbitControls
+        enableZoom={false}
+        enablePan={false}
+        rotateSpeed={0.6}
+        maxPolarAngle={Math.PI / 1.7}
+        minPolarAngle={Math.PI / 2.5}
+      />
 
       {modelAvailable ? (
         <Suspense fallback={<ProceduralQuantumCore accentColor={accentColor} />}>
