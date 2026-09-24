@@ -13,7 +13,7 @@ export default function ProjectsCatalogueFlow({ projects }: ProjectsCatalogueFlo
   const containerRef = React.useRef<HTMLDivElement>(null)
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+    <div ref={containerRef} className="relative w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 overflow-visible z-[3]">
       {/* Scroll-Reactive Light Beams Stream Down From The Singularity */}
       <ScrollLightBeams containerRef={containerRef} />
 

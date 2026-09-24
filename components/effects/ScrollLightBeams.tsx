@@ -63,11 +63,25 @@ export default function ScrollLightBeams({ containerRef }: ScrollLightBeamsProps
     const height = contRect.height
     setContainerSize({ width, height })
 
-    // Origin: Top center of container (just below Black Hole)
-    const points: Point[] = [{ x: width / 2, y: 0 }]
+    // Origin: Query the exact 3D Artifact Core emission node
+    const emitterEl = document.getElementById('artifact-core-emitter') || document.getElementById('singularity-origin')
+    let originX = width / 2
+    let originY = 0
 
-    // Add slight curve below hero
-    points.push({ x: width / 2, y: 120 })
+    if (emitterEl) {
+      const eRect = emitterEl.getBoundingClientRect()
+      originX = eRect.left - contRect.left + eRect.width / 2
+      originY = eRect.top - contRect.top + eRect.height / 2
+    }
+
+    const points: Point[] = [
+      { x: originX, y: originY },
+      // Direct vertical drop from the 3D crystal tip
+      { x: originX, y: originY + 60 },
+      // Fluid intermediate transition bridging hero to project catalogue
+      { x: (originX + width / 2) / 2, y: originY * 0.3 },
+      { x: width / 2, y: 50 },
+    ]
 
     // Query all project card thumbnails
     const thumbs = Array.from(container.querySelectorAll<HTMLElement>('[data-project-thumb="true"]'))
@@ -258,7 +272,31 @@ export default function ScrollLightBeams({ containerRef }: ScrollLightBeamsProps
           />
         )}
 
-        {/* ─── 3. Target Node Spark Rings at Each Project Center ─── */}
+        {/* ─── 3. Singularity Core Emitter Energy Crown at 3D Model Crystal Tip ─── */}
+        {sparkPositions.length > 0 && (
+          <g transform={`translate(${sparkPositions[0].x}, ${sparkPositions[0].y})`}>
+            <circle
+              r="22"
+              fill="none"
+              stroke={themeAccentLight}
+              strokeWidth="1.5"
+              strokeOpacity="0.45"
+              strokeDasharray="3 3"
+            />
+            <circle
+              r="10"
+              fill={themeAccent}
+              fillOpacity="0.75"
+              filter="url(#spline-laser-glow)"
+            />
+            <circle
+              r="3.5"
+              fill="#ffffff"
+            />
+          </g>
+        )}
+
+        {/* ─── 4. Target Node Spark Rings at Each Project Center ─── */}
         {sparkPositions.slice(1, -1).map((pt, i) => (
           <g key={i} transform={`translate(${pt.x}, ${pt.y})`}>
             {/* Outer halo */}

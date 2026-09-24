@@ -2,7 +2,7 @@
 
 import React, { Suspense, useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useGLTF, Float, MeshDistortMaterial, Center, Environment, OrbitControls } from '@react-three/drei'
+import { useGLTF, Float, MeshDistortMaterial, Center, Environment, Lightformer, OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 
 interface ArtifactCoreProps {
@@ -85,9 +85,35 @@ function ProceduralQuantumCore({ accentColor }: { accentColor: string }) {
 }
 
 // ─── External GLB Model Loader ───
-function GlbModel({ path }: { path: string }) {
+function GlbModel({ path, accentColor }: { path: string; accentColor: string }) {
   const { scene } = useGLTF(path)
   const groupRef = useRef<THREE.Group>(null)
+
+  useEffect(() => {
+    scene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh
+        mesh.castShadow = true
+        mesh.receiveShadow = true
+        if (mesh.material) {
+          const mat = mesh.material as THREE.MeshStandardMaterial
+          if (mat.map) {
+            mat.map.colorSpace = THREE.SRGBColorSpace
+            mat.map.needsUpdate = true
+          }
+          // Metallic specular gloss
+          mat.envMapIntensity = 2.2
+          mat.roughness = 0.2
+          mat.metalness = 0.82
+
+          // Deep energetic persona emissive glow
+          mat.emissive = new THREE.Color(accentColor)
+          mat.emissiveIntensity = 0.22
+          mat.needsUpdate = true
+        }
+      }
+    })
+  }, [scene, accentColor])
 
   useFrame((_, delta) => {
     if (groupRef.current) {
@@ -97,7 +123,7 @@ function GlbModel({ path }: { path: string }) {
 
   return (
     <group ref={groupRef} dispose={null}>
-      <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.4}>
+      <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3}>
         <Center>
           <primitive object={scene} scale={2.4} />
         </Center>
@@ -108,26 +134,34 @@ function GlbModel({ path }: { path: string }) {
 
 // ─── Scene Container ───
 function SceneContent({ modelPath, accentColor }: { modelPath: string; accentColor: string }) {
-  const [modelAvailable, setModelAvailable] = useState<boolean | null>(null)
-
-  useEffect(() => {
-    // Check if the model file is accessible on the server
-    fetch(modelPath, { method: 'HEAD' })
-      .then((res) => {
-        setModelAvailable(res.ok)
-      })
-      .catch(() => {
-        setModelAvailable(false)
-      })
-  }, [modelPath])
-
   return (
     <>
-      <ambientLight intensity={1.2} />
-      <directionalLight position={[5, 8, 5]} intensity={2.0} color="#ffffff" />
-      <directionalLight position={[-5, -4, -5]} intensity={0.8} color={accentColor} />
-      <pointLight position={[0, -1.2, 0]} intensity={4.0} color={accentColor} distance={6} />
-      <pointLight position={[0, 2, 2]} intensity={2.5} color="#ae6bf6" distance={8} />
+      {/* 
+        Cinematic PBR Lighting:
+        - Low ambient light (0.22) preserves deep midnight obsidian shadows and prevents milky washing
+        - Sharp cool directional key light (1.0) creates crisp faceted specular reflections
+        - Vibrant persona-colored rim light (2.2) outlines the geometric silhouette
+        - Bottom energy focal point light (7.0) surges through the lower crystal tip
+      */}
+      <ambientLight intensity={0.22} />
+      <directionalLight position={[6, 8, 6]} intensity={1.0} color="#ffffff" />
+      <directionalLight position={[-6, -3, -6]} intensity={2.2} color={accentColor} />
+      <directionalLight position={[0, 6, -8]} intensity={1.5} color="#ae6bf6" />
+
+      {/* Internal Core & Bottom Tip Energy Flares */}
+      <pointLight position={[0, -1.6, 0]} intensity={7.0} color={accentColor} distance={7} />
+      <pointLight position={[0, 0.2, 0.8]} intensity={3.0} color="#ae6bf6" distance={6} />
+      <pointLight position={[0, 1.8, -0.8]} intensity={2.0} color="#ffffff" distance={5} />
+
+      {/* Procedural Local Environment: 0 external network requests, zero CDN failures */}
+      <Environment resolution={256}>
+        <group rotation={[-Math.PI / 3, 0, 1]}>
+          <Lightformer form="circle" intensity={3} position={[0, 6, -8]} scale={4} />
+          <Lightformer form="circle" intensity={2} color={accentColor} position={[-6, 1, -1]} scale={3} />
+          <Lightformer form="rect" intensity={3} color="#ae6bf6" position={[6, 2, 2]} scale={[8, 3, 1]} />
+          <Lightformer form="rect" intensity={6} color={accentColor} position={[0, -4, 0]} scale={[12, 4, 1]} />
+        </group>
+      </Environment>
 
       <OrbitControls
         enableZoom={false}
@@ -137,13 +171,9 @@ function SceneContent({ modelPath, accentColor }: { modelPath: string; accentCol
         minPolarAngle={Math.PI / 2.5}
       />
 
-      {modelAvailable ? (
-        <Suspense fallback={<ProceduralQuantumCore accentColor={accentColor} />}>
-          <GlbModel path={modelPath} />
-        </Suspense>
-      ) : (
-        <ProceduralQuantumCore accentColor={accentColor} />
-      )}
+      <Suspense fallback={<ProceduralQuantumCore accentColor={accentColor} />}>
+        <GlbModel path={modelPath} accentColor={accentColor} />
+      </Suspense>
     </>
   )
 }
@@ -175,7 +205,13 @@ export default function ArtifactCore3D({
     <div className={`relative w-full h-full ${className}`}>
       <Canvas
         camera={{ position: [0, 0, 4.2], fov: 45 }}
-        gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
+        gl={{
+          alpha: true,
+          antialias: true,
+          powerPreference: 'high-performance',
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.15,
+        }}
         className="w-full h-full"
       >
         <SceneContent modelPath={modelPath} accentColor={accentColor} />

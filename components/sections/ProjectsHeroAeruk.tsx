@@ -11,7 +11,7 @@ export default function ProjectsHeroAeruk() {
   const themeAccentLight = personaConfig?.theme?.accentLight || '#ae6bf6'
 
   return (
-    <section className="relative w-full min-h-screen -mt-28 flex flex-col items-center justify-center text-center px-6 z-[2] overflow-hidden">
+    <section className="relative w-full min-h-screen -mt-28 flex flex-col items-center justify-center text-center px-6 z-[2] overflow-visible">
       {/* ─── 3D Logomark Glass Videos — Exact Aeruk Positions & Sources from Home Hero ─── */}
       
       {/* Crystal 1 — Bottom-Left (Aeruk exact position & rotation) */}
@@ -105,15 +105,24 @@ export default function ProjectsHeroAeruk() {
             accentColor={themeAccent}
           />
 
-          {/* Energy Horizon Emission Node Label */}
-          <div className="absolute bottom-2 flex flex-col items-center gap-1.5 pointer-events-none z-20">
-            <span className="text-[9px] font-mono uppercase tracking-[0.3em] text-white/50">
+          {/* Energy Horizon Emission Node Anchor */}
+          <div
+            id="artifact-core-emitter"
+            className="absolute bottom-5 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none z-20"
+          >
+            <div className="relative flex items-center justify-center w-5 h-5">
+              <div
+                className="absolute inset-0 rounded-full animate-ping opacity-75"
+                style={{ backgroundColor: themeAccentLight }}
+              />
+              <div
+                className="w-2.5 h-2.5 rounded-full"
+                style={{ backgroundColor: '#ffffff', boxShadow: `0 0 14px 3px ${themeAccent}` }}
+              />
+            </div>
+            <span className="text-[9px] font-mono uppercase tracking-[0.3em] text-white/50 mt-1 whitespace-nowrap">
               [ 3D Artifact Core — Scroll To Explore ]
             </span>
-            <div
-              className="w-2 h-2 rounded-full animate-ping"
-              style={{ backgroundColor: themeAccentLight }}
-            />
           </div>
         </motion.div>
       </div>
