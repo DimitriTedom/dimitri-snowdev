@@ -71,10 +71,13 @@ export default function ProjectCard({ project, index, isRevealed = true }: Proje
       initial={{ opacity: 0, y: 45, scale: 0.94 }}
       animate={
         isRevealed
-          ? { opacity: 1, y: 0, scale: 1 }
-          : { opacity: 0.15, y: 30, scale: 0.96 }
+          ? { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }
+          : { opacity: 0, y: 45, scale: 0.94, filter: 'blur(6px)' }
       }
       transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        pointerEvents: isRevealed ? 'auto' : 'none',
+      }}
       className="group relative flex flex-col w-full bg-transparent select-none transition-all duration-700"
     >
       {/* ─── Top Hairline Divider & Monospace Header ─── */}
@@ -105,25 +108,6 @@ export default function ProjectCard({ project, index, isRevealed = true }: Proje
         }}
         className="relative mt-4 mb-6 aspect-[16/10] sm:aspect-[812/568] w-full overflow-hidden rounded-xl border border-white/10 bg-bg-surface/50 shadow-glass cursor-pointer"
       >
-        {/* Pre-Visible Target Beacon (Visible before beams converge) */}
-        {!isRevealed && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-30">
-            <div className="relative flex items-center justify-center">
-              <div
-                className="w-12 h-12 rounded-full border border-white/30 animate-ping absolute opacity-60"
-                style={{ borderColor: themeAccentLight }}
-              />
-              <div
-                className="w-3.5 h-3.5 rounded-full shadow-[0_0_18px_#ffffff]"
-                style={{ backgroundColor: '#ffffff' }}
-              />
-            </div>
-            <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-white/60 mt-4">
-              [ NODE_{formattedIndex} // READY ]
-            </span>
-          </div>
-        )}
-
         {/* Convergence Target Anchor */}
         <div
           data-project-target={index}

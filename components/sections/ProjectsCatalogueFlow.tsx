@@ -20,6 +20,30 @@ export default function ProjectsCatalogueFlow({ projects }: ProjectsCatalogueFlo
     })
   }, [])
 
+  // Pre-reveal projects that are already scrolled past on initial mount / reload
+  React.useEffect(() => {
+    const handleInitialScroll = () => {
+      if (typeof window === 'undefined') return
+      const currentScroll = window.scrollY
+      if (currentScroll < 100) return
+
+      const thumbs = Array.from(document.querySelectorAll<HTMLElement>('[data-project-thumb="true"]'))
+      const toReveal: number[] = []
+      thumbs.forEach((thumb, idx) => {
+        const top = thumb.getBoundingClientRect().top + window.scrollY
+        if (top < currentScroll + window.innerHeight * 0.5) {
+          toReveal.push(idx)
+        }
+      })
+      if (toReveal.length > 0) {
+        setRevealedIndices((prev) => Array.from(new Set([...prev, ...toReveal])))
+      }
+    }
+
+    const t = setTimeout(handleInitialScroll, 150)
+    return () => clearTimeout(t)
+  }, [])
+
   return (
     <div ref={containerRef} className="relative w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 overflow-visible z-[3]">
       {/* Scroll-Reactive Light Beams Stream Down From The Singularity */}

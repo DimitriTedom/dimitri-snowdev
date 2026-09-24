@@ -276,6 +276,20 @@ export default function ScrollLightBeams({
       const currentScrollY = window.scrollY
       const segments = segmentsRef.current
 
+      // Draw all pre-visible target dots for cards that have NOT yet been revealed
+      segments.forEach((seg) => {
+        if (seg.cardIndex >= 0 && !revealedIndices.includes(seg.cardIndex)) {
+          // Clean, quiet stationary target dot in the dark void (exact Trionn screenshot)
+          ctx.beginPath()
+          ctx.arc(seg.target.x, seg.target.y, 2.5, 0, Math.PI * 2)
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.65)'
+          ctx.shadowColor = '#ffffff'
+          ctx.shadowBlur = 6
+          ctx.fill()
+          ctx.shadowBlur = 0
+        }
+      })
+
       // Draw each chained segment
       segments.forEach((seg, sIdx) => {
         // Calculate target progress from scroll
@@ -299,47 +313,25 @@ export default function ScrollLightBeams({
         const nx = -dy / dist
         const ny = dx / dist
 
-        // Trigger project reveal callback when the 3 beams converge at p1
-        if (p >= 0.96 && seg.cardIndex >= 0) {
+        // Trigger project reveal callback the moment the 3 beams touch the target dot
+        if (p >= 0.97 && seg.cardIndex >= 0) {
           onRevealProjectRef.current?.(seg.cardIndex)
         }
 
-        // ─── A. PRE-VISIBLE TARGET DOT ─────────────────────────────────────
-        // The target point is ALREADY VISIBLE in space BEFORE the 3 lines reach it!
-        if (p < 0.98) {
-          // Stationary glowing target dot in empty space
-          ctx.beginPath()
-          ctx.arc(p1.x, p1.y, 3.5, 0, Math.PI * 2)
-          ctx.fillStyle = '#ffffff'
-          ctx.shadowColor = '#ffffff'
-          ctx.shadowBlur = 8
-          ctx.fill()
-          ctx.shadowBlur = 0
-
-          // Pulsing delicate radar reticle
-          const radarPulse = Math.sin(time * 3.5 + sIdx * 1.5) * 0.3 + 0.7
-          ctx.beginPath()
-          ctx.arc(p1.x, p1.y, 16 * radarPulse, 0, Math.PI * 2)
-          ctx.strokeStyle = `${themeAccentLight}77`
-          ctx.lineWidth = 1.2
-          ctx.setLineDash([3, 5])
-          ctx.stroke()
-          ctx.setLineDash([])
-        } else if (p >= 0.98 && p < 1.3) {
-          // ─── B. SIMULTANEOUS CONVERGENCE IMPACT BLOOM ────────────────────
-          // When all 3 strands touch the target point at the same time:
-          const bloomFade = Math.max(0, 1 - (p - 0.98) * 4) // Fades smoothly as user scrolls further
-          if (bloomFade > 0.05) {
+        // Contact flash bloom right when all 3 tips touch the target dot
+        if (p >= 0.97 && p < 1.15) {
+          const flash = Math.max(0, 1 - (p - 0.97) * 6)
+          if (flash > 0.05) {
             ctx.beginPath()
-            ctx.arc(p1.x, p1.y, 22 * (1.2 - bloomFade * 0.2), 0, Math.PI * 2)
-            ctx.fillStyle = `${themeAccentLight}${Math.floor(bloomFade * 60).toString(16).padStart(2, '0')}`
+            ctx.arc(p1.x, p1.y, 16 * flash, 0, Math.PI * 2)
+            ctx.fillStyle = `${themeAccentLight}50`
             ctx.fill()
 
             ctx.beginPath()
-            ctx.arc(p1.x, p1.y, 5, 0, Math.PI * 2)
+            ctx.arc(p1.x, p1.y, 4, 0, Math.PI * 2)
             ctx.fillStyle = '#ffffff'
             ctx.shadowColor = '#ffffff'
-            ctx.shadowBlur = 16 * bloomFade
+            ctx.shadowBlur = 12 * flash
             ctx.fill()
             ctx.shadowBlur = 0
           }
@@ -348,21 +340,25 @@ export default function ScrollLightBeams({
         // If this segment has not started growing yet, don't draw strands
         if (p <= 0.005) return
 
-        // ─── C. THE 3 MULTI-STRAND BEAMS (Upper, Center, Lower) ────────────
+        // Is this segment currently actively growing, or is it already completed?
+        const isCompleted = p >= 0.99
+        const segmentOpacity = isCompleted ? 0.35 : 1.0
+
+        // ─── THE 3 MULTI-STRAND BEAMS (Upper, Center, Lower) ──────────────
         // 3 distinct paths spreading out from origin, waving in space, and converging at target
         const strandConfigs = [
-          { spreadFactor: -1.0, phase: 0, lineWidth: 1.4, opacity: 0.8 },
-          { spreadFactor: 0.0, phase: Math.PI * 0.5, lineWidth: 2.0, opacity: 1.0 },
-          { spreadFactor: 1.0, phase: Math.PI, lineWidth: 1.4, opacity: 0.8 },
+          { spreadFactor: -0.85, phase: 0, lineWidth: 1.1, opacity: 0.75 },
+          { spreadFactor: 0.0, phase: Math.PI * 0.5, lineWidth: 1.3, opacity: 0.95 },
+          { spreadFactor: 0.85, phase: Math.PI, lineWidth: 1.1, opacity: 0.75 },
         ]
 
         strandConfigs.forEach((strand, k) => {
           // Organic floating wave physics (living wave motion even when scroll stops)
-          const wave1 = Math.sin(time * 2.2 + strand.phase + sIdx * 1.8) * 18
-          const wave2 = Math.cos(time * 1.7 + strand.phase + sIdx * 1.4) * 18
-          const wave3 = Math.sin(time * 1.3 + strand.phase * 1.3) * 10
+          const wave1 = Math.sin(time * 2.2 + strand.phase + sIdx * 1.8) * 16
+          const wave2 = Math.cos(time * 1.7 + strand.phase + sIdx * 1.4) * 16
+          const wave3 = Math.sin(time * 1.3 + strand.phase * 1.3) * 8
 
-          const lateralSpread = strand.spreadFactor * Math.max(45, Math.min(110, dist * 0.2))
+          const lateralSpread = strand.spreadFactor * Math.max(35, Math.min(90, dist * 0.18))
 
           // 3D-curved Bezier Control Points oscillating in real time
           const cp1: Point = {
@@ -377,50 +373,48 @@ export default function ScrollLightBeams({
           // Evaluate the sub-curve up to parameter t = p
           const sub = splitBezierAt(p0, cp1, cp2, p1, p)
 
-          // 1. Outer Soft Energetic Glow
+          // 1. Subtle Outer Luminous Glow
           ctx.beginPath()
           ctx.moveTo(sub.p0.x, sub.p0.y)
           ctx.bezierCurveTo(sub.cp1.x, sub.cp1.y, sub.cp2.x, sub.cp2.y, sub.p1.x, sub.p1.y)
           ctx.strokeStyle = themeAccent
-          ctx.lineWidth = strand.lineWidth * 3.5
-          ctx.globalAlpha = 0.4 * strand.opacity
+          ctx.lineWidth = strand.lineWidth * 2.5
+          ctx.globalAlpha = 0.25 * strand.opacity * segmentOpacity
           ctx.shadowColor = themeAccent
-          ctx.shadowBlur = 12
+          ctx.shadowBlur = 8
           ctx.stroke()
           ctx.shadowBlur = 0
 
-          // 2. Core Laser Filament
+          // 2. Core Clean Filament (Exact Trionn sleek aesthetic)
           ctx.beginPath()
           ctx.moveTo(sub.p0.x, sub.p0.y)
           ctx.bezierCurveTo(sub.cp1.x, sub.cp1.y, sub.cp2.x, sub.cp2.y, sub.p1.x, sub.p1.y)
-          ctx.strokeStyle = k === 1 ? '#ffffff' : themeAccentLight
+          ctx.strokeStyle = k === 1 ? 'rgba(240, 248, 255, 0.95)' : 'rgba(185, 205, 240, 0.75)'
           ctx.lineWidth = strand.lineWidth
-          ctx.globalAlpha = strand.opacity
+          ctx.globalAlpha = strand.opacity * segmentOpacity
           ctx.stroke()
           ctx.globalAlpha = 1.0
 
-          // 3. Leading Spark Dot at the tip of each strand while traveling
+          // 3. Leading White Dot at the tip of each strand while traveling (Exact Trionn screenshot)
           if (p > 0.02 && p < 0.99) {
             ctx.beginPath()
-            ctx.arc(sub.p1.x, sub.p1.y, 3.5, 0, Math.PI * 2)
+            ctx.arc(sub.p1.x, sub.p1.y, 2.4, 0, Math.PI * 2)
             ctx.fillStyle = '#ffffff'
             ctx.shadowColor = '#ffffff'
-            ctx.shadowBlur = 9
-            ctx.fill()
-
-            ctx.beginPath()
-            ctx.arc(sub.p1.x, sub.p1.y, 8, 0, Math.PI * 2)
-            ctx.fillStyle = `${themeAccentLight}55`
+            ctx.shadowBlur = 6
             ctx.fill()
             ctx.shadowBlur = 0
           }
         })
 
-        // Origin Emitter Halo
+        // Origin Emitter Dot
         ctx.beginPath()
-        ctx.arc(p0.x, p0.y, 4, 0, Math.PI * 2)
-        ctx.fillStyle = themeAccentLight
+        ctx.arc(p0.x, p0.y, 2.5, 0, Math.PI * 2)
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'
+        ctx.shadowColor = '#ffffff'
+        ctx.shadowBlur = 4
         ctx.fill()
+        ctx.shadowBlur = 0
       })
 
       ctx.restore()
