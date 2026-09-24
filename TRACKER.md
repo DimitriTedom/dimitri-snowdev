@@ -36,10 +36,10 @@
 | **Obj 3** | Supabase V2 Database Schema & Seed Data | ✅ Completed | `fc7d0b2` — SQL migrations, RLS policies, TypeScript types (`types/database.ts`), static data fallback (`data/*.ts`) |
 | **Obj 4** | Navbar Capsule & Main Layout | ✅ Completed | `f8e935f` — Aerukart pill glassmorphism navbar, social sidebar dock, footer, sticky `PersonaFloatingButton` |
 | **Obj 5** | Hero Section Dynamique | ✅ Completed | `df8e232` — Dynamic persona hero title/tagline, looping brand glass video background, GSAP entrance stagger |
-| **Obj 6** | Section Projets (Catalogue + Case Studies) | ✅ Completed | `3632ce3` — `ProjectsGrid`, `ProjectsFilter`, aerukart-style cards, dynamic case study page `/projects/[slug]` |
+| **Obj 6** | Section Projets (Catalogue + Case Studies) | ✅ Completed | `0dc2ee3` — `ProjectsCatalogueFlow`, `ScrollLightBeams` (Trionn-style 3-strand curves, living waves, stationary dots, contact bloom), `FuturisticEnergyCore3D`, Supabase 1s timeout |
 | **Obj 7** | Section Skills — Tech Radar Interactif | ✅ Completed | `4d761ec` — D3.js SVG Radar (`SkillsRadar.tsx`), Devicon SVG cloud grid (`SkillsCloud.tsx`), `/skills` route |
-| **Obj 8** | About Section + Timeline Professionnelle | ✅ Completed | `4d761ec` — GSAP ScrollTrigger vertical line (`ExperienceTimeline.tsx`), `LearningJourney.tsx`, `LocationWidget.tsx` (Yaoundé GMT+1), `AchievementsSection.tsx` (`NumberTicker`), `/about` route |
-| **Obj 9** | Services Section & Contact Premium | ⏳ **NEXT UP** | `/services` route with persona-specific services, `/contact` route with Zod validation + Resend API handler |
+| **Obj 8** | About Section + Timeline Professionnelle | 🎯 **NEXT TARGET** | Refine `/about` page to full Trionn/Aerukart aesthetic, interactive timeline, bio, and location hub |
+| **Obj 9** | Services Section & Contact Premium | ⏳ Scheduled | `/services` route with persona-specific services, `/contact` route with Zod validation + Resend API handler |
 | **Obj 10**| Phase 1 SEO, Performance & Build Gate | ⏳ Pending | `generateMetadata`, OpenGraph images, Lighthouse audit, `sitemap.ts`, `robots.ts` |
 
 ---
