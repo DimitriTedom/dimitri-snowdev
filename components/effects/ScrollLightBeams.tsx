@@ -142,15 +142,15 @@ export default function ScrollLightBeams({ containerRef }: ScrollLightBeamsProps
     }
   }, [containerRef, updateSplines])
 
-  // Scroll animations linked to scroll position
+  // Scroll animations linked to scroll position - active throughout the entire projects catalogue
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start 80%', 'end 30%'],
+    offset: ['start 95%', 'end 85%'],
   })
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 30,
+    stiffness: 100,
+    damping: 28,
     restDelta: 0.001,
   })
 
@@ -171,15 +171,15 @@ export default function ScrollLightBeams({ containerRef }: ScrollLightBeamsProps
         <defs>
           {/* Persona Gradient for Main Spline */}
           <linearGradient id="trionn-spline-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor={themeAccent} stopOpacity="0.1" />
-            <stop offset="15%" stopColor={themeAccent} stopOpacity="0.8" />
-            <stop offset="50%" stopColor={themeAccentLight} stopOpacity="0.95" />
-            <stop offset="85%" stopColor={themeAccent} stopOpacity="0.8" />
+            <stop offset="0%" stopColor={themeAccent} stopOpacity="0.2" />
+            <stop offset="20%" stopColor={themeAccent} stopOpacity="0.9" />
+            <stop offset="55%" stopColor={themeAccentLight} stopOpacity="1" />
+            <stop offset="85%" stopColor={themeAccent} stopOpacity="0.9" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="1" />
           </linearGradient>
 
           {/* Glow filter */}
-          <filter id="spline-laser-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <filter id="spline-laser-glow" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
@@ -189,29 +189,29 @@ export default function ScrollLightBeams({ containerRef }: ScrollLightBeamsProps
           </filter>
         </defs>
 
-        {/* ─── 1. Persistent Hairline Guide Splines (Trionn Base Lines) ─── */}
+        {/* ─── 1. Persistent Hairline Guide Splines (Trionn Structural Lines) ─── */}
         {splinePaths.left && (
           <path
             d={splinePaths.left}
-            stroke="rgba(255, 255, 255, 0.04)"
+            stroke="rgba(255, 255, 255, 0.07)"
             strokeWidth="1.2"
-            strokeDasharray="4 4"
+            strokeDasharray="4 5"
             fill="none"
           />
         )}
         {splinePaths.right && (
           <path
             d={splinePaths.right}
-            stroke="rgba(255, 255, 255, 0.04)"
+            stroke="rgba(255, 255, 255, 0.07)"
             strokeWidth="1.2"
-            strokeDasharray="4 4"
+            strokeDasharray="4 5"
             fill="none"
           />
         )}
         {splinePaths.center && (
           <path
             d={splinePaths.center}
-            stroke="rgba(255, 255, 255, 0.08)"
+            stroke="rgba(255, 255, 255, 0.12)"
             strokeWidth="1.5"
             fill="none"
           />
