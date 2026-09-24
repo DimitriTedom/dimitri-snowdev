@@ -12,6 +12,14 @@ export async function createSupabaseServerClient() {
   const cookieStore = await cookies();
 
   return createServerClient(url, anonKey, {
+    global: {
+      fetch: (input: Parameters<typeof fetch>[0], init?: Parameters<typeof fetch>[1]) => {
+        return fetch(input, {
+          ...init,
+          signal: init?.signal ?? AbortSignal.timeout(1000),
+        });
+      },
+    },
     cookies: {
       getAll() {
         return cookieStore.getAll();
