@@ -11,7 +11,7 @@ export default function ProjectsHeroAeruk() {
   const themeAccentLight = personaConfig?.theme?.accentLight || '#ae6bf6'
 
   return (
-    <section className="relative w-full min-h-screen -mt-28 flex flex-col items-center justify-center text-center px-6 z-[2] overflow-visible">
+    <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-6 z-[2] overflow-visible">
       {/* ─── 3D Logomark Glass Videos — Exact Aeruk Positions & Sources from Home Hero ─── */}
       
       {/* Crystal 1 — Bottom-Left (Aeruk exact position & rotation) */}

@@ -43,21 +43,37 @@
 
 ## 2. What Was Engineered in the Project Detail / Case Study Page (`/projects/[slug]`)
 
-### A. Aeruk-Style Hero Section (`ProjectDetailHeroAeruk.tsx`)
-- **3D Device Mockup Composition**:
-  - Centerpiece: 3D angled MacBook Pro mockup with dark aluminum bezel, glass sheen, and main project screenshot.
-  - Right Foreground: Floating iPhone mockup in perspective display showing the mobile layout.
-  - Left Background: Angled browser window displaying secondary interface flow.
-  - Deep atmospheric ambient lighting with radial gradient and dark grid texture.
-- **Monumental Centered Title (Modified per Dimitri's directive)**:
-  - Huge display typography (`CHEZFLORA E-COMMERCE WEB APP`) centered across the lower portion of the devices.
-  - Seamless gradient text (`#ffffff` via `#f3ecff` to `#d6bcfa`).
-  - **Explicit exclusions respected**: Removed the `< Retour` back button and removed the tech tags from the hero.
+### A. Global Layout & Header Transparency Standard
+- **Root Layout (`app/(portfolio)/layout.tsx`)**:
+  - Removed artificial `pt-28 pb-10` from `<main className="relative flex-grow w-full">` which previously caused a solid 112px black band under the header across new pages.
+  - Replaced `overflow-x-hidden` with `overflow-x-clip` on the layout wrapper so `position: sticky` is not broken by the browser.
+  - Removed `-mt-28` hack from `HeroSection.tsx`, `ProjectsHeroAeruk.tsx`, and `ProjectDetailHeroAeruk.tsx`.
+  - The transparent header floats naturally at `y: 0` directly above page backgrounds on desktop (`pt-5`) and mobile (`top-4 left-4` monogram + `bottom-4` dock).
 
-### B. Trionn-Style Case Study Layout (`ProjectDetailTrionnContent.tsx`)
-- **Split-Screen Grid**:
-  - **Left Sticky Sidebar (`col-span-12 lg:col-span-5 xl:col-span-4 lg:sticky lg:top-28`)**:
-    - Minimalist `← Back to projects` navigation link with hover glide.
+### B. Aeruk-Style Half-Page Hero Section (`ProjectDetailHeroAeruk.tsx`)
+- **Proportional ~50vh Half-Page Viewport Ratio**:
+  - Instead of taking 100vh of space and pushing the case study below the fold, the hero occupies `h-[50vh] min-h-[380px] max-h-[460px]`.
+  - When the user arrives on the page, the top half shows the Aeruk 3D device preview (MacBook centerpiece, left angled tablet, right floating iPhone) with the monumental centered title (`CHEZFLORA E-COMMERCE WEB APP`).
+  - The lower half of the initial viewport immediately reveals the beginning of the Trionn case study content above the fold!
+  - **Explicit exclusions respected**: Excluded the `< Retour` back button and tech tags in the hero.
+
+### C. Trionn-Style Case Study Layout (`ProjectDetailTrionnContent.tsx`)
+- **Visual Stream on Left (`col-span-12 lg:col-span-7 xl:col-span-7 order-2 lg:order-1`)**:
+  - Visual 1: Primary master screen overview.
+  - Visual 2: Secondary feature screen.
+  - Technical Highlights cards: Performance, Type Safety, Architecture.
+  - Visual 3: Third showcase interface flow.
+  - Deployed Technologies cluster.
+- **Sticky Text Panel on Right ("Does Not Obey the Scroll") (`col-span-12 lg:col-span-5 xl:col-span-5 order-1 lg:order-2 lg:sticky lg:top-20 self-start z-20`)**:
+  - Minimalist `← Back to projects` navigation link.
+  - Trionn line separator with centered crosshair `+`.
+  - Meta index (`03 // WEB APPS`) and year.
+  - Description summary.
+  - Scope & Deliverables list.
+  - 4 interactive tabs (`The challenge`, `Approach`, `Outcome`, `What we did`) with smooth crossfade.
+  - Live Preview and Source Code CTA buttons.
+  - Bottom previous / next project pagination.
+  - Remains pinned to the screen as the user scrolls through the visuals on the left.
     - Trionn signature separator line with center crosshair (`+`).
     - Project index & metadata (`03 // WEB APPS`, `2025`).
     - Scope & Deliverables bullet points.

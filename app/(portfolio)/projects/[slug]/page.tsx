@@ -66,7 +66,7 @@ export default async function ProjectDetailPage({ params, searchParams }: PagePr
   const { prevProject, nextProject } = await getAdjacentProjects(slug, personaId)
 
   return (
-    <div className="relative min-h-screen w-full bg-[#040508] overflow-hidden">
+    <div className="relative min-h-screen w-full bg-[#040508] overflow-x-clip">
       {/* 1. Aeruk Style Hero: 3D Device Mockup stage with centered monumental title (no back button, no tech tags) */}
       <ProjectDetailHeroAeruk
         project={project}

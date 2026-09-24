@@ -9,11 +9,11 @@ export default function PortfolioLayout({ children }: { children: React.ReactNod
   return (
     <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center text-text-secondary">Loading...</div>}>
       <PersonaProvider>
-        <div className="relative min-h-screen bg-black flex flex-col justify-between overflow-x-hidden">
+        <div className="relative min-h-screen bg-black flex flex-col justify-between overflow-x-clip">
           <Navbar />
           <SidebarSocials />
           
-          <main className="relative flex-grow w-full pt-28 pb-10">
+          <main className="relative flex-grow w-full">
             {children}
           </main>
           

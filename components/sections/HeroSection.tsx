@@ -67,7 +67,7 @@ export default function HeroSection() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full min-h-screen -mt-28 flex flex-col items-center justify-center text-center px-6 z-[2] overflow-hidden"
+      className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-6 z-[2] overflow-hidden"
     >
       {/* Crystal 1 — Bottom-Left (strictly in Hero, scrolls away with hero, brought inwards) */}
       <div
