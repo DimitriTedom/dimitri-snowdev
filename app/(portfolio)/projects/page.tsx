@@ -50,8 +50,8 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
   const projects = await getProjectsByPersona(personaId)
 
   return (
-    <div className="relative min-h-screen w-full bg-black text-white flex flex-col items-center overflow-x-hidden selection:bg-white selection:text-black">
-      {/* 1. Aeruk Style Hero with 21st.dev Energy Beam */}
+    <>
+      {/* 1. Aeruk Style Hero with 3D Artifact Core */}
       <ProjectsHeroAeruk />
 
       {/* 2. Scroll-Reactive Light Beams & Asymmetric Trionn Editorial Projects Flow */}
@@ -59,6 +59,6 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
 
       {/* 3. Agency-Grade Contact CTA */}
       <ProjectsCTA />
-    </div>
+    </>
   )
 }

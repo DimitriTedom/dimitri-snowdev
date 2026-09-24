@@ -11,7 +11,7 @@ export default function ProjectsHeroAeruk() {
   const themeAccentLight = personaConfig?.theme?.accentLight || '#ae6bf6'
 
   return (
-    <section className="relative w-full min-h-screen -mt-28 flex flex-col items-center justify-center text-center px-6 z-[2] overflow-hidden pt-28 pb-12">
+    <section className="relative w-full min-h-screen -mt-28 flex flex-col items-center justify-center text-center px-6 z-[2] overflow-hidden">
       {/* ─── 3D Logomark Glass Videos — Exact Aeruk Positions & Sources from Home Hero ─── */}
       
       {/* Crystal 1 — Bottom-Left (Aeruk exact position & rotation) */}
@@ -45,7 +45,7 @@ export default function ProjectsHeroAeruk() {
       </div>
 
       {/* ─── Hero Content Stack ─── */}
-      <div className="relative z-10 container mx-auto max-w-[1200px] px-4 flex flex-col items-center text-center">
+      <div className="relative z-10 container mx-auto max-w-[1200px] px-4 flex flex-col items-center text-center pt-10 sm:pt-14">
         {/* Breadcrumb: ACCUEIL > PROJETS */}
         <motion.div
           initial={{ opacity: 0, y: -12 }}
