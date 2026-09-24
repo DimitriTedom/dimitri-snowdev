@@ -11,9 +11,10 @@ import { ArrowUpRight } from 'lucide-react'
 interface ProjectCardProps {
   project: ProjectWithPersonas
   index: number
+  isRevealed?: boolean
 }
 
-export default function ProjectCard({ project, index }: ProjectCardProps) {
+export default function ProjectCard({ project, index, isRevealed = true }: ProjectCardProps) {
   const { activePersona, personaConfig } = usePersona()
   const themeAccent = personaConfig?.theme?.accent || '#5e17eb'
   const themeAccentLight = personaConfig?.theme?.accentLight || '#ae6bf6'
@@ -67,11 +68,14 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
   return (
     <motion.article
       ref={cardRef}
-      initial={{ opacity: 0, y: 60, scale: 0.97 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: '-60px' }}
+      initial={{ opacity: 0, y: 45, scale: 0.94 }}
+      animate={
+        isRevealed
+          ? { opacity: 1, y: 0, scale: 1 }
+          : { opacity: 0.15, y: 30, scale: 0.96 }
+      }
       transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative flex flex-col w-full bg-transparent select-none"
+      className="group relative flex flex-col w-full bg-transparent select-none transition-all duration-700"
     >
       {/* ─── Top Hairline Divider & Monospace Header ─── */}
       <div className="flex items-center justify-between pb-3 border-b border-white/10 font-mono text-xs tracking-widest text-text-muted">
@@ -101,6 +105,46 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         }}
         className="relative mt-4 mb-6 aspect-[16/10] sm:aspect-[812/568] w-full overflow-hidden rounded-xl border border-white/10 bg-bg-surface/50 shadow-glass cursor-pointer"
       >
+        {/* Pre-Visible Target Beacon (Visible before beams converge) */}
+        {!isRevealed && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-30">
+            <div className="relative flex items-center justify-center">
+              <div
+                className="w-12 h-12 rounded-full border border-white/30 animate-ping absolute opacity-60"
+                style={{ borderColor: themeAccentLight }}
+              />
+              <div
+                className="w-3.5 h-3.5 rounded-full shadow-[0_0_18px_#ffffff]"
+                style={{ backgroundColor: '#ffffff' }}
+              />
+            </div>
+            <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-white/60 mt-4">
+              [ NODE_{formattedIndex} // READY ]
+            </span>
+          </div>
+        )}
+
+        {/* Convergence Target Anchor */}
+        <div
+          data-project-target={index}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 pointer-events-none z-30 opacity-0"
+        />
+
+        {/* Exit Emitter Anchor (New Origin for the next beams) */}
+        <div
+          data-project-emitter={index}
+          className={`absolute top-1/2 -translate-y-1/2 w-2 h-2 pointer-events-none z-30 opacity-0 ${
+            index % 2 === 0 ? 'right-0' : 'left-0'
+          }`}
+        />
+
+        {/* Flash Reveal Bloom Overlay */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isRevealed ? { opacity: [0, 0.7, 0] } : { opacity: 0 }}
+          transition={{ duration: 0.9, times: [0, 0.2, 1] }}
+          className="absolute inset-0 pointer-events-none z-20 bg-gradient-to-tr from-white/30 via-white/10 to-transparent"
+        />
         <Link
           href={`/projects/${project.slug}?persona=${activePersona}`}
           className="block w-full h-full relative"

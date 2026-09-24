@@ -6,6 +6,7 @@ import ProjectCard from '@/components/cards/ProjectCard'
 
 interface ProjectsGridProps {
   projects: ProjectWithPersonas[]
+  revealedIndices?: number[]
 }
 
 const TRIONN_RHYTHMS = [
@@ -19,20 +20,21 @@ const TRIONN_RHYTHMS = [
   'lg:w-[38%] lg:mr-[4%] lg:ml-auto mb-20 lg:mb-36', // Card 8: Right narrow accent
 ]
 
-export default function ProjectsGrid({ projects }: ProjectsGridProps) {
+export default function ProjectsGrid({ projects, revealedIndices = [] }: ProjectsGridProps) {
   return (
     <div className="w-full relative z-10 flex flex-col">
       {/* Asymmetric Staggered Editorial Flow (Exact Trionn Rhythm) */}
       <div className="flex flex-col w-full">
         {projects.map((project, idx) => {
           const rhythmClass = TRIONN_RHYTHMS[idx % TRIONN_RHYTHMS.length]
+          const isRevealed = revealedIndices.includes(idx)
 
           return (
             <div
               key={project.id}
               className={`w-full transition-all duration-500 ${rhythmClass}`}
             >
-              <ProjectCard project={project} index={idx} />
+              <ProjectCard project={project} index={idx} isRevealed={isRevealed} />
             </div>
           )
         })}
