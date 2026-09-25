@@ -129,29 +129,29 @@ export default function AboutHeroSection() {
         </div>
       </div>
 
-      {/* ── 4b. Download CV Button — Left floating interactive control ───────── */}
-      <div className="absolute left-6 md:left-12 lg:left-16 top-1/2 -translate-y-1/2 z-40 pointer-events-auto">
+      {/* ── 4b. Download CV Button — Bottom-left interactive control (aligned with persona icon) ───────── */}
+      <div className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-50 pointer-events-auto">
         <a
           href="/cv/Dimitri_Tedom_CV.pdf"
           download="Dimitri_Tedom_CV.pdf"
-          className="group relative flex items-center gap-3.5 px-5 py-3.5 rounded-2xl border border-white/15 bg-[#0e0e24]/80 backdrop-blur-xl transition-all duration-300 hover:border-violet-400/50 hover:bg-[#141235]/95 hover:shadow-[0_0_35px_rgba(94,23,235,0.45)] hover:-translate-y-0.5 active:scale-95"
+          className="group relative flex items-center gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl border border-glass-border bg-bg-surface/40 backdrop-blur-glass-lg transition-all duration-300 hover:border-violet-400/50 hover:bg-bg-surface/70 hover:shadow-[0_8px_32px_0_rgba(0,0,0,0.5),0_0_22px_-4px_rgba(94,23,235,0.6)] hover:-translate-y-0.5 active:scale-95"
           aria-label="Download CV"
         >
-          {/* Subtle neon pulse beacon on button border */}
+          {/* Subtle neon glow on hover */}
           <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-violet-600/30 via-fuchsia-500/20 to-purple-600/30 opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500 -z-10" />
 
-          {/* Icon pill with glowing circle */}
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-violet-600/20 border border-violet-500/30 text-violet-300 transition-all duration-300 group-hover:bg-violet-600 group-hover:text-white group-hover:shadow-[0_0_18px_rgba(174,107,246,0.6)]">
-            <FileDown className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-0.5" />
+          {/* Icon pill */}
+          <div className="relative flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-xl bg-violet-600/20 border border-violet-500/30 text-violet-300 transition-all duration-300 group-hover:bg-violet-600 group-hover:text-white group-hover:shadow-[0_0_18px_rgba(174,107,246,0.6)]">
+            <FileDown className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:translate-y-0.5" />
           </div>
 
           {/* Text block */}
           <div className="flex flex-col text-left">
-            <span className="flex items-center gap-1.5 text-[11px] font-mono font-medium tracking-wider uppercase text-violet-400/90">
+            <span className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-mono font-medium tracking-wider uppercase text-violet-400/90">
               <Sparkles className="w-3 h-3" />
               Curriculum Vitae
             </span>
-            <span className="text-sm font-semibold tracking-wide text-white group-hover:text-violet-100 transition-colors">
+            <span className="text-xs md:text-sm font-semibold tracking-wide text-white group-hover:text-violet-100 transition-colors">
               Download CV
             </span>
           </div>
