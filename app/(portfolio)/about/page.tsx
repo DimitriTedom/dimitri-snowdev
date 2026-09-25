@@ -6,6 +6,7 @@ import ExperienceTimeline from '@/components/sections/ExperienceTimeline'
 import LearningJourney from '@/components/sections/LearningJourney'
 import AchievementsSection from '@/components/sections/AchievementsSection'
 import LocationWidget from '@/components/sections/LocationWidget'
+import AboutHeroSection from '@/components/sections/about/AboutHeroSection'
 import { Metadata } from 'next'
 import { Sparkles, Heart } from 'lucide-react'
 
@@ -19,7 +20,13 @@ export default async function AboutPage() {
   const achievements = await getAchievements()
 
   return (
-    <div className="relative w-full max-w-7xl mx-auto px-6 py-12 flex flex-col gap-16">
+    <div className="relative w-full flex flex-col">
+
+      {/* ── Immersive About Hero (full-bleed, no container constraints) ── */}
+      <AboutHeroSection />
+
+      {/* ── Existing biography & timeline content below ── */}
+      <div className="relative w-full max-w-7xl mx-auto px-6 py-12 flex flex-col gap-16">
       
       {/* Background glow effects */}
       <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[140px] pointer-events-none -z-10" />
@@ -147,6 +154,7 @@ export default async function AboutPage() {
         <AchievementsSection achievements={achievements} />
       </div>
 
+      </div>{/* end inner constrained container */}
     </div>
   )
 }
