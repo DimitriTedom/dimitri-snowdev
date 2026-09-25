@@ -2,6 +2,7 @@
 
 import { useRef, useState, useCallback } from 'react'
 import dynamic from 'next/dynamic'
+import { FileDown, Sparkles } from 'lucide-react'
 
 // Dynamically import the Three.js scene — disables SSR to avoid WebGL errors
 const AboutHeroScene = dynamic(() => import('./AboutHeroScene'), { ssr: false })
@@ -126,6 +127,35 @@ export default function AboutHeroSection() {
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-sm text-[10px] font-mono uppercase tracking-widest text-white/50">
           Portfolio · About
         </div>
+      </div>
+
+      {/* ── 4b. Download CV Button — Left floating interactive control ───────── */}
+      <div className="absolute left-6 md:left-12 lg:left-16 top-1/2 -translate-y-1/2 z-40 pointer-events-auto">
+        <a
+          href="/cv/Dimitri_Tedom_CV.pdf"
+          download="Dimitri_Tedom_CV.pdf"
+          className="group relative flex items-center gap-3.5 px-5 py-3.5 rounded-2xl border border-white/15 bg-[#0e0e24]/80 backdrop-blur-xl transition-all duration-300 hover:border-violet-400/50 hover:bg-[#141235]/95 hover:shadow-[0_0_35px_rgba(94,23,235,0.45)] hover:-translate-y-0.5 active:scale-95"
+          aria-label="Download CV"
+        >
+          {/* Subtle neon pulse beacon on button border */}
+          <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-violet-600/30 via-fuchsia-500/20 to-purple-600/30 opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500 -z-10" />
+
+          {/* Icon pill with glowing circle */}
+          <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-violet-600/20 border border-violet-500/30 text-violet-300 transition-all duration-300 group-hover:bg-violet-600 group-hover:text-white group-hover:shadow-[0_0_18px_rgba(174,107,246,0.6)]">
+            <FileDown className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-0.5" />
+          </div>
+
+          {/* Text block */}
+          <div className="flex flex-col text-left">
+            <span className="flex items-center gap-1.5 text-[11px] font-mono font-medium tracking-wider uppercase text-violet-400/90">
+              <Sparkles className="w-3 h-3" />
+              Curriculum Vitae
+            </span>
+            <span className="text-sm font-semibold tracking-wide text-white group-hover:text-violet-100 transition-colors">
+              Download CV
+            </span>
+          </div>
+        </a>
       </div>
 
       {/* ── 5. Greetings headline — upper section, behind the model (z-10 < model z-20) ── */}
