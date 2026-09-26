@@ -62,7 +62,7 @@ export default function AboutStorySection() {
           </div>
 
           <h2 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl uppercase tracking-tight text-white leading-tight">
-            {"Hello ! Je suis "}
+            {"Hello! I'm "}
             <span className="bg-gradient-to-r from-violet-400 via-fuchsia-300 to-white bg-clip-text text-transparent">
               Dimitri Tedom
             </span>
