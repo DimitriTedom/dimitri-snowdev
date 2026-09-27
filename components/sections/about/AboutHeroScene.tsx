@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, Suspense } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { useGLTF, useTexture, Environment, ContactShadows } from '@react-three/drei'
+import { useGLTF, useTexture, ContactShadows } from '@react-three/drei'
 import * as THREE from 'three'
 
 // ─── Mouse position stored globally to avoid React re-renders on every move ───
@@ -170,7 +170,6 @@ export default function AboutHeroScene() {
             far={3}
             color="#5e17eb"
           />
-          <Environment preset="night" environmentIntensity={0.2} />
         </Suspense>
       </Canvas>
     </div>
