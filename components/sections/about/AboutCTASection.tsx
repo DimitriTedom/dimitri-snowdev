@@ -14,7 +14,7 @@ export default function AboutCTASection() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.9, ease: 'easeOut' }}
-        className="relative w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] md:w-[400px] md:h-[400px] pointer-events-none select-none flex items-center justify-center -mb-4 sm:-mb-8 z-0"
+        className="relative w-[140px] h-[140px] sm:w-[190px] sm:h-[190px] md:w-[240px] md:h-[240px] pointer-events-none select-none flex items-center justify-center -mb-2 sm:-mb-4 z-0"
       >
         {/* Subtle radial purple/violet glow directly behind the transparent crystal */}
         <div className="absolute inset-4 rounded-full bg-violet-600/20 blur-3xl -z-10" />
