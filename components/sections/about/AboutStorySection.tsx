@@ -3,7 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Sparkles, Flame } from 'lucide-react'
+import { Sparkles, Flame, ExternalLink, ArrowUpRight } from 'lucide-react'
 
 export default function AboutStorySection() {
   return (
@@ -134,6 +134,31 @@ export default function AboutStorySection() {
               <p>
                 In March 2024, I elevated that self-taught foundation through an intensive 1-year MERN Full Stack and AWS Cloud Architect program at Worketyamo, and later transitioned into enterprise-level development and instruction at Master Language and Technology Institute.
               </p>
+              <p>
+                Today, I am actively open to freelance contracts — whether privately or through my{' '}
+                <a
+                  href="https://www.upwork.com/freelancers/~010e493a28561cd5ce?mp_source=share"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-violet-400 hover:text-white underline decoration-violet-500/50 hover:decoration-white font-medium transition-colors"
+                >
+                  designer Upwork profile <ExternalLink size={12} />
+                </a>{' '}
+                and developer engagements. I remain perpetually excited to learn, master new domains, and achieve true professional freedom through craft and innovation.
+              </p>
+            </div>
+
+            {/* Quick Upwork link badge */}
+            <div className="pt-2">
+              <a
+                href="https://www.upwork.com/freelancers/~010e493a28561cd5ce?mp_source=share"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/upwork inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.04] hover:bg-violet-600/20 border border-white/10 hover:border-violet-500/50 text-xs font-mono text-white transition-all duration-300"
+              >
+                <span>Hire on Upwork</span>
+                <ArrowUpRight size={14} className="text-violet-400 group-hover/upwork:translate-x-0.5 group-hover/upwork:-translate-y-0.5 transition-transform" />
+              </a>
             </div>
           </div>
 
